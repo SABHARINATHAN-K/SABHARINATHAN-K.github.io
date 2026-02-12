@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard - Career Planning</title>
+  <link rel="stylesheet" href="../assets/css/styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="./dashboard.html">Career Planning</a>
+    <nav>
+      <a href="./goals.html">Goals</a>
+      <button id="logoutBtn" class="link-btn" type="button">Logout</button>
+    </nav>
+  </header>
+
+  <main class="container">
+    <section class="hero-card">
+      <div>
+        <p class="eyebrow">Dashboard</p>
+        <h1 id="welcomeText">Welcome</h1>
+        <p class="muted">Track your growth by role, career track, and goal completion.</p>
+      </div>
+      <a class="btn" href="./goals.html">Manage Goals</a>
+    </section>
+
+    <section class="grid stats-grid">
+      <article class="stat-card">
+        <p>Total Goals</p>
+        <h3 id="statTotal">0</h3>
+      </article>
+      <article class="stat-card">
+        <p>Planned</p>
+        <h3 id="statPlanned">0</h3>
+      </article>
+      <article class="stat-card">
+        <p>In Progress</p>
+        <h3 id="statInProgress">0</h3>
+      </article>
+      <article class="stat-card">
+        <p>Completed</p>
+        <h3 id="statCompleted">0</h3>
+      </article>
+    </section>
+
+    <section class="grid dashboard-grid">
+      <article class="card profile-card">
+        <h2>My Profile</h2>
+        <div class="profile-grid">
+          <div class="profile-item">
+            <span>Full Name</span>
+            <p id="profileName">-</p>
+          </div>
+          <div class="profile-item">
+            <span>Email</span>
+            <p id="profileEmail">-</p>
+          </div>
+          <div class="profile-item">
+            <span>Role</span>
+            <p id="profileRole">-</p>
+          </div>
+          <div class="profile-item">
+            <span>Career Track</span>
+            <p id="profileCareerTrack">-</p>
+          </div>
+        </div>
+        <p id="profileStatus" class="muted profile-status">Loading profile...</p>
+      </article>
+
+      <article class="card">
+        <div class="row-between">
+          <h2>Recommended Goal Templates</h2>
+          <span class="pill" id="careerPill">Career</span>
+        </div>
+        <div id="templateList" class="template-list"></div>
+      </article>
+    </section>
+  </main>
+
+  <div id="toast" class="toast"></div>
+
+  <script src="../assets/js/config.js"></script>
+  <script src="../assets/js/ui.js"></script>
+  <script src="../assets/js/api.js"></script>
+  <script src="../assets/js/dashboard.js"></script>
+</body>
+</html>

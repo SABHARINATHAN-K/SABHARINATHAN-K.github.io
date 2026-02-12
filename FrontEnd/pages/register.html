@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Register - Career Planning</title>
+  <link rel="stylesheet" href="../assets/css/styles.css" />
+</head>
+<body>
+  <main class="auth-layout">
+    <section class="auth-side">
+      <p class="eyebrow">Start Strong</p>
+      <h1>Create your personalized career journey</h1>
+      <p>Choose your role and career track. We will use it to personalize goal templates and dashboard insights.</p>
+      <a href="../index.html" class="text-link">Back to Home</a>
+    </section>
+
+    <section class="auth-card">
+      <h2>Create Account</h2>
+      <form id="registerForm" class="form">
+        <label>Full Name
+          <input id="fullName" type="text" placeholder="Your name" required />
+        </label>
+        <label>Email
+          <input id="email" type="email" placeholder="you@example.com" required />
+        </label>
+        <label>Password
+          <input id="password" type="password" minlength="8" placeholder="Min 8 characters" required />
+        </label>
+        <label>Role
+          <select id="role" required>
+            <option value="">Loading roles...</option>
+          </select>
+        </label>
+        <label>Career Track
+          <select id="careerTrack" required>
+            <option value="">Loading tracks...</option>
+          </select>
+        </label>
+        <button id="registerBtn" type="submit" class="btn full">Register</button>
+      </form>
+      <p class="muted">Already registered? <a href="./login.html">Login</a></p>
+      <pre id="messageBox" class="message">Ready.</pre>
+    </section>
+  </main>
+
+  <script src="../assets/js/config.js"></script>
+  <script src="../assets/js/ui.js"></script>
+  <script src="../assets/js/api.js"></script>
+  <script src="../assets/js/register.js"></script>
+</body>
+</html>

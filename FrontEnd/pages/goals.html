@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Goals - Career Planning</title>
+  <link rel="stylesheet" href="../assets/css/styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="./dashboard.html">Career Planning</a>
+    <nav>
+      <a href="./dashboard.html">Dashboard</a>
+      <button id="logoutBtn" class="link-btn" type="button">Logout</button>
+    </nav>
+  </header>
+
+  <main class="container">
+    <section class="hero-card">
+      <div>
+        <p class="eyebrow">Goals Workspace</p>
+        <h1>Create, update, and track your goals</h1>
+      </div>
+      <button id="refreshBtn" type="button" class="btn btn-secondary">Refresh</button>
+    </section>
+
+    <section class="grid goals-grid">
+      <article class="card">
+        <h2>Create Goal</h2>
+        <form id="createForm" class="form">
+          <label>Title
+            <input id="createTitle" type="text" required />
+          </label>
+          <label>Description
+            <input id="createDescription" type="text" />
+          </label>
+          <label>Target Date
+            <input id="createTargetDate" type="date" />
+          </label>
+          <button id="createBtn" type="submit" class="btn full">Create Goal</button>
+        </form>
+
+        <h3>Quick Templates</h3>
+        <label>Career Track
+          <select id="templateCareerTrack"></select>
+        </label>
+        <div id="templateButtons" class="template-list"></div>
+      </article>
+
+      <article class="card">
+        <h2>Update Goal</h2>
+        <form id="updateForm" class="form">
+          <label>Goal ID
+            <input id="updateId" type="number" required />
+          </label>
+          <label>Title
+            <input id="updateTitle" type="text" required />
+          </label>
+          <label>Description
+            <input id="updateDescription" type="text" />
+          </label>
+          <label>Status
+            <select id="updateStatus">
+              <option value="PLANNED">PLANNED</option>
+              <option value="IN_PROGRESS">IN_PROGRESS</option>
+              <option value="COMPLETED">COMPLETED</option>
+            </select>
+          </label>
+          <label>Target Date
+            <input id="updateTargetDate" type="date" />
+          </label>
+          <button id="updateBtn" type="submit" class="btn full">Update Goal</button>
+        </form>
+      </article>
+    </section>
+
+    <section class="card">
+      <div class="row-between wrap">
+        <h2>My Goals</h2>
+        <div class="inline-filters">
+          <input id="searchInput" type="text" placeholder="Search title/description" />
+          <select id="statusFilter">
+            <option value="ALL">All Status</option>
+            <option value="PLANNED">PLANNED</option>
+            <option value="IN_PROGRESS">IN_PROGRESS</option>
+            <option value="COMPLETED">COMPLETED</option>
+          </select>
+        </div>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Status</th>
+            <th>Target Date</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="goalsBody"></tbody>
+      </table>
+
+      <pre id="messageBox" class="message">Ready.</pre>
+    </section>
+  </main>
+
+  <div id="toast" class="toast"></div>
+
+  <script src="../assets/js/config.js"></script>
+  <script src="../assets/js/ui.js"></script>
+  <script src="../assets/js/api.js"></script>
+  <script src="../assets/js/goals.js"></script>
+</body>
+</html>

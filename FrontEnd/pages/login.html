@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login - Career Planning</title>
+  <link rel="stylesheet" href="../assets/css/styles.css" />
+</head>
+<body>
+  <main class="auth-layout">
+    <section class="auth-side">
+      <p class="eyebrow">Welcome Back</p>
+      <h1>Continue your career plan</h1>
+      <p>Login to check your profile, track your goals, and update progress.</p>
+      <a href="../index.html" class="text-link">Back to Home</a>
+    </section>
+
+    <section class="auth-card">
+      <h2>Login</h2>
+      <form id="loginForm" class="form">
+        <label>Email
+          <input id="email" type="email" placeholder="you@example.com" required />
+        </label>
+        <label>Password
+          <input id="password" type="password" placeholder="Enter password" required />
+        </label>
+        <button id="loginBtn" type="submit" class="btn full">Login</button>
+      </form>
+      <p class="muted">New user? <a href="./register.html">Create account</a></p>
+      <pre id="messageBox" class="message">Ready.</pre>
+    </section>
+  </main>
+
+  <script src="../assets/js/config.js"></script>
+  <script src="../assets/js/ui.js"></script>
+  <script src="../assets/js/api.js"></script>
+  <script src="../assets/js/login.js"></script>
+</body>
+</html>
