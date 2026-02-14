@@ -13,7 +13,7 @@ fi
 
 export DB_URL="${DB_URL:-jdbc:mysql://localhost:3306/career_planning_system?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC}"
 export DB_USERNAME="${DB_USERNAME:-sabhari}"
-export DB_PASSWORD="${DB_PASSWORD:-password}"
-export PORT="${PORT:-8080}"
+export DB_PASSWORD="${DB_PASSWORD:-ss}"
+export PORT="${PORT:-8081}"
 
-mvn spring-boot:run
+mvn spring-boot:run -Dspring-boot.run.jvmArguments="-Dserver.port=$PORT"

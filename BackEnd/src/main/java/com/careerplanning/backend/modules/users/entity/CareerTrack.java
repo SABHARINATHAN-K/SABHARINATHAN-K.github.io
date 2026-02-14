@@ -4,6 +4,11 @@ import java.util.Arrays;
 import java.util.List;
 
 public enum CareerTrack {
+    SOFTWARE_ENGINEERING,
+    DATA_SCIENCE,
+    PRODUCT_MANAGEMENT,
+    DESIGN,
+    MARKETING,
     JAVA_BACKEND_DEVELOPER,
     FRONTEND_DEVELOPER,
     FULL_STACK_DEVELOPER,

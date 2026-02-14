@@ -3,108 +3,136 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Goals - Career Planning</title>
+  <title>Goals - CareerPath</title>
   <link rel="stylesheet" href="../assets/css/styles.css" />
 </head>
 <body>
   <header class="topbar">
-    <a class="brand" href="./dashboard.html">Career Planning</a>
-    <nav>
-      <a href="./dashboard.html">Dashboard</a>
-      <button id="logoutBtn" class="link-btn" type="button">Logout</button>
-    </nav>
+    <div class="topbar-inner">
+      <a class="brand" href="./dashboard.html">
+        <span class="brand-mark">CP</span>
+        <span class="gradient-text">CareerPath</span>
+      </a>
+
+      <nav class="topnav">
+        <a class="nav-link" href="./dashboard.html">Dashboard</a>
+        <a class="nav-link active" href="./goals.html">Goals</a>
+        <a class="nav-link" href="./analytics.html">Analytics</a>
+        <a class="nav-link" href="./profile.html">Profile</a>
+      </nav>
+
+      <button id="logoutBtn" class="btn btn-muted btn-small" type="button">Logout</button>
+    </div>
   </header>
 
-  <main class="container">
-    <section class="hero-card">
-      <div>
-        <p class="eyebrow">Goals Workspace</p>
-        <h1>Create, update, and track your goals</h1>
-      </div>
-      <button id="refreshBtn" type="button" class="btn btn-secondary">Refresh</button>
-    </section>
+  <main class="main-content">
+    <div class="container">
+      <section class="page-header">
+        <div>
+          <h1>My Goals</h1>
+          <p>Create, manage, and track your career objectives.</p>
+        </div>
+        <div class="toolbar-actions">
+          <button id="toggleTemplatesBtn" class="btn btn-ghost" type="button">Templates</button>
+          <button id="newGoalBtn" class="btn btn-primary" type="button">New Goal</button>
+        </div>
+      </section>
 
-    <section class="grid goals-grid">
-      <article class="card">
-        <h2>Create Goal</h2>
-        <form id="createForm" class="form">
-          <label>Title
-            <input id="createTitle" type="text" required />
-          </label>
-          <label>Description
-            <input id="createDescription" type="text" />
-          </label>
-          <label>Target Date
-            <input id="createTargetDate" type="date" />
-          </label>
-          <button id="createBtn" type="submit" class="btn full">Create Goal</button>
-        </form>
-
-        <h3>Quick Templates</h3>
-        <label>Career Track
+      <section id="templatesPanel" class="panel hidden">
+        <div class="section-header">
+          <h3>Goal Templates</h3>
+          <button id="closeTemplatesBtn" class="btn btn-muted btn-small" type="button">Close</button>
+        </div>
+        <div class="form-group" style="max-width: 380px; margin-bottom: 0.7rem;">
+          <label for="templateCareerTrack">Career Track</label>
           <select id="templateCareerTrack"></select>
-        </label>
+        </div>
         <div id="templateButtons" class="template-list"></div>
-      </article>
+      </section>
 
-      <article class="card">
-        <h2>Update Goal</h2>
-        <form id="updateForm" class="form">
-          <label>Goal ID
-            <input id="updateId" type="number" required />
-          </label>
-          <label>Title
-            <input id="updateTitle" type="text" required />
-          </label>
-          <label>Description
-            <input id="updateDescription" type="text" />
-          </label>
-          <label>Status
-            <select id="updateStatus">
-              <option value="PLANNED">PLANNED</option>
-              <option value="IN_PROGRESS">IN_PROGRESS</option>
-              <option value="COMPLETED">COMPLETED</option>
-            </select>
-          </label>
-          <label>Target Date
-            <input id="updateTargetDate" type="date" />
-          </label>
-          <button id="updateBtn" type="submit" class="btn full">Update Goal</button>
-        </form>
-      </article>
-    </section>
+      <section class="panel">
+        <div class="section-header">
+          <h3>Filters</h3>
+          <button id="clearFiltersBtn" class="btn btn-muted btn-small" type="button">Clear Filters</button>
+        </div>
 
-    <section class="card">
-      <div class="row-between wrap">
-        <h2>My Goals</h2>
-        <div class="inline-filters">
-          <input id="searchInput" type="text" placeholder="Search title/description" />
+        <div class="filter-grid">
+          <input id="searchInput" type="text" placeholder="Search goals by title or description" />
           <select id="statusFilter">
             <option value="ALL">All Status</option>
-            <option value="PLANNED">PLANNED</option>
-            <option value="IN_PROGRESS">IN_PROGRESS</option>
-            <option value="COMPLETED">COMPLETED</option>
+            <option value="PLANNED">Planned</option>
+            <option value="IN_PROGRESS">In Progress</option>
+            <option value="COMPLETED">Completed</option>
           </select>
+          <select id="priorityFilter">
+            <option value="ALL">All Priorities</option>
+          </select>
+          <select id="categoryFilter">
+            <option value="ALL">All Categories</option>
+          </select>
+          <button id="refreshBtn" class="btn btn-secondary" type="button">Refresh</button>
         </div>
-      </div>
 
-      <table>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Title</th>
-            <th>Description</th>
-            <th>Status</th>
-            <th>Target Date</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody id="goalsBody"></tbody>
-      </table>
+        <p id="resultText" class="text-muted" style="margin-top: 0.6rem;">Showing 0 goals</p>
+      </section>
+
+      <section id="goalsGrid" class="goal-grid"></section>
 
       <pre id="messageBox" class="message">Ready.</pre>
-    </section>
+    </div>
   </main>
+
+  <div id="createModal" class="modal">
+    <div class="modal-card">
+      <div class="modal-head">
+        <h2>Create New Goal</h2>
+        <button id="closeCreateModalBtn" class="btn btn-muted btn-small" type="button">Close</button>
+      </div>
+
+      <div class="modal-body">
+        <form id="createForm" class="form">
+          <div class="form-group">
+            <label for="createTitle">Title *</label>
+            <input id="createTitle" type="text" placeholder="Learn React Framework" required />
+          </div>
+
+          <div class="form-group">
+            <label for="createDescription">Description</label>
+            <textarea id="createDescription" placeholder="Describe your goal..."></textarea>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="createPriority">Priority</label>
+              <select id="createPriority"></select>
+            </div>
+
+            <div class="form-group">
+              <label for="createCategory">Category</label>
+              <select id="createCategory"></select>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="createTargetDate">Target Date</label>
+              <input id="createTargetDate" type="date" />
+            </div>
+
+            <div class="form-group">
+              <label for="createTags">Tags (comma separated)</label>
+              <input id="createTags" type="text" placeholder="react, portfolio, interview" />
+            </div>
+          </div>
+
+          <div class="toolbar-actions">
+            <button id="cancelCreateBtn" class="btn btn-muted" type="button">Cancel</button>
+            <button id="createBtn" class="btn btn-primary" type="submit">Create Goal</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
 
   <div id="toast" class="toast"></div>
 

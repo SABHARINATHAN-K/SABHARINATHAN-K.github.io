@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 
 import java.time.Instant;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "goals")
@@ -26,7 +28,29 @@ public class Goal {
     @Column(nullable = false)
     private GoalStatus status = GoalStatus.PLANNED;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private GoalPriority priority = GoalPriority.MEDIUM;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private GoalCategory category = GoalCategory.LEARNING;
+
     private LocalDate targetDate;
+
+    private Instant completedDate;
+
+    @Column(nullable = false)
+    private Integer progress = 0;
+
+    @Column(length = 4000)
+    private String notes;
+
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "goal_tags", joinColumns = @JoinColumn(name = "goal_id"))
+    @OrderColumn(name = "tag_order")
+    @Column(name = "tag", nullable = false)
+    private List<String> tags = new ArrayList<>();
 
     @Column(nullable = false)
     private Instant createdAt = Instant.now();
@@ -81,6 +105,54 @@ public class Goal {
 
     public void setTargetDate(LocalDate targetDate) {
         this.targetDate = targetDate;
+    }
+
+    public GoalPriority getPriority() {
+        return priority;
+    }
+
+    public void setPriority(GoalPriority priority) {
+        this.priority = priority;
+    }
+
+    public GoalCategory getCategory() {
+        return category;
+    }
+
+    public void setCategory(GoalCategory category) {
+        this.category = category;
+    }
+
+    public Instant getCompletedDate() {
+        return completedDate;
+    }
+
+    public void setCompletedDate(Instant completedDate) {
+        this.completedDate = completedDate;
+    }
+
+    public Integer getProgress() {
+        return progress;
+    }
+
+    public void setProgress(Integer progress) {
+        this.progress = progress;
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
+    }
+
+    public List<String> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<String> tags) {
+        this.tags = tags;
     }
 
     public Instant getCreatedAt() {

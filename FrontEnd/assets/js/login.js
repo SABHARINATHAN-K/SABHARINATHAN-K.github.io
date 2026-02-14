@@ -24,11 +24,14 @@ loginForm.addEventListener("submit", async (event) => {
 
     AppApi.setToken(res.data.token);
     AppUi.setMessage(messageBox, "Login successful. Redirecting...");
+    AppUi.showToast("Welcome back");
+
     setTimeout(() => {
       window.location.href = "./dashboard.html";
     }, 450);
   } catch (error) {
     AppUi.setMessage(messageBox, error.message);
+    AppUi.showToast(error.message, "error");
   } finally {
     AppUi.setLoading(loginBtn, false);
   }

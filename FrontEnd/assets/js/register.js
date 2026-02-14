@@ -12,33 +12,40 @@ init();
 
 async function init() {
   try {
-    const [roles, careerTracks] = await Promise.all([
+    const [roles, tracks] = await Promise.all([
       AppApi.listRoles(),
       AppApi.listCareerTracks()
     ]);
 
-    setOptions(roleSelect, roles);
-    setOptions(careerTrackSelect, careerTracks);
-    AppUi.setMessage(messageBox, "Choose your role and career track.");
+    setOptions(roleSelect, roles, "PROFESSIONAL");
+    setOptions(careerTrackSelect, tracks, "SOFTWARE_ENGINEERING");
+    AppUi.setMessage(messageBox, "Fill the form and create your account.");
   } catch (error) {
     AppUi.setMessage(messageBox, `Failed to load options: ${error.message}`);
+    AppUi.showToast("Could not load form options", "error");
   }
 }
 
-function setOptions(selectElement, values) {
+function setOptions(selectElement, values, preferred) {
   selectElement.innerHTML = values
-    .map((value) => `<option value="${value}">${AppUi.humanize(value)}</option>`)
+    .map((value) => `<option value="${AppUi.escapeAttr(value)}">${AppUi.escapeHtml(AppUi.humanize(value))}</option>`)
     .join("");
+
+  if (values.includes(preferred)) {
+    selectElement.value = preferred;
+  }
 }
 
 registerForm.addEventListener("submit", async (event) => {
   event.preventDefault();
 
-  const fullName = document.getElementById("fullName").value.trim();
-  const email = document.getElementById("email").value.trim();
-  const password = document.getElementById("password").value;
-  const role = roleSelect.value;
-  const careerTrack = careerTrackSelect.value;
+  const payload = {
+    fullName: document.getElementById("fullName").value.trim(),
+    email: document.getElementById("email").value.trim(),
+    password: document.getElementById("password").value,
+    role: roleSelect.value,
+    careerTrack: careerTrackSelect.value
+  };
 
   AppUi.setLoading(registerBtn, true, "Creating account...");
 
@@ -46,16 +53,19 @@ registerForm.addEventListener("submit", async (event) => {
     const res = await AppApi.request("/api/v1/auth/register", {
       method: "POST",
       auth: false,
-      body: { fullName, email, password, role, careerTrack }
+      body: payload
     });
 
     AppApi.setToken(res.data.token);
-    AppUi.setMessage(messageBox, "Registration successful. Redirecting...");
+    AppUi.setMessage(messageBox, "Account created. Redirecting to dashboard...");
+    AppUi.showToast("Account created successfully");
+
     setTimeout(() => {
       window.location.href = "./dashboard.html";
     }, 550);
   } catch (error) {
     AppUi.setMessage(messageBox, error.message);
+    AppUi.showToast(error.message, "error");
   } finally {
     AppUi.setLoading(registerBtn, false);
   }

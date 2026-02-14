@@ -70,9 +70,70 @@
     return res.data || [];
   }
 
+  async function listGoalCategories() {
+    const res = await request("/api/v1/lookups/goal-categories", { auth: false });
+    return res.data || [];
+  }
+
+  async function listGoalPriorities() {
+    const res = await request("/api/v1/lookups/goal-priorities", { auth: false });
+    return res.data || [];
+  }
+
   async function listGoalTemplates() {
     const res = await request("/api/v1/lookups/goal-templates", { auth: false });
     return res.data || {};
+  }
+
+  async function getMe() {
+    const res = await request("/api/v1/users/me");
+    return res.data;
+  }
+
+  async function updateMe(body) {
+    const res = await request("/api/v1/users/me", {
+      method: "PUT",
+      body
+    });
+    return res.data;
+  }
+
+  async function listGoals() {
+    const res = await request("/api/v1/goals");
+    return res.data || [];
+  }
+
+  async function getGoal(goalId) {
+    const res = await request(`/api/v1/goals/${goalId}`);
+    return res.data;
+  }
+
+  async function createGoal(body) {
+    const res = await request("/api/v1/goals", {
+      method: "POST",
+      body
+    });
+    return res.data;
+  }
+
+  async function updateGoal(goalId, body) {
+    const res = await request(`/api/v1/goals/${goalId}`, {
+      method: "PUT",
+      body
+    });
+    return res.data;
+  }
+
+  async function deleteGoal(goalId) {
+    const res = await request(`/api/v1/goals/${goalId}`, {
+      method: "DELETE"
+    });
+    return res.data;
+  }
+
+  async function getGoalStats() {
+    const res = await request("/api/v1/goals/stats");
+    return res.data;
   }
 
   window.AppApi = {
@@ -83,6 +144,16 @@
     requireAuth,
     listRoles,
     listCareerTracks,
-    listGoalTemplates
+    listGoalCategories,
+    listGoalPriorities,
+    listGoalTemplates,
+    getMe,
+    updateMe,
+    listGoals,
+    getGoal,
+    createGoal,
+    updateGoal,
+    deleteGoal,
+    getGoalStats
   };
 })();

@@ -1,6 +1,8 @@
 package com.careerplanning.backend.modules.lookups.controller;
 
 import com.careerplanning.backend.common.response.ApiResponse;
+import com.careerplanning.backend.modules.goals.entity.GoalCategory;
+import com.careerplanning.backend.modules.goals.entity.GoalPriority;
 import com.careerplanning.backend.modules.users.entity.CareerTrack;
 import com.careerplanning.backend.modules.users.entity.UserRole;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,9 +27,71 @@ public class LookupController {
         return ApiResponse.success(CareerTrack.options());
     }
 
+    @GetMapping("/goal-categories")
+    public ApiResponse<List<String>> listGoalCategories() {
+        return ApiResponse.success(List.of(
+                GoalCategory.SKILL_DEVELOPMENT.name(),
+                GoalCategory.CAREER_GROWTH.name(),
+                GoalCategory.NETWORKING.name(),
+                GoalCategory.CERTIFICATION.name(),
+                GoalCategory.PROJECT.name(),
+                GoalCategory.LEARNING.name()
+        ));
+    }
+
+    @GetMapping("/goal-priorities")
+    public ApiResponse<List<String>> listGoalPriorities() {
+        return ApiResponse.success(List.of(
+                GoalPriority.LOW.name(),
+                GoalPriority.MEDIUM.name(),
+                GoalPriority.HIGH.name(),
+                GoalPriority.URGENT.name()
+        ));
+    }
+
     @GetMapping("/goal-templates")
     public ApiResponse<Map<String, List<String>>> goalTemplates() {
         Map<String, List<String>> templates = new LinkedHashMap<>();
+        templates.put(CareerTrack.SOFTWARE_ENGINEERING.name(), List.of(
+                "Learn React Framework",
+                "Build Portfolio Project",
+                "Master Data Structures",
+                "Contribute to Open Source",
+                "Complete System Design Course",
+                "Build Full-Stack Application"
+        ));
+        templates.put(CareerTrack.DATA_SCIENCE.name(), List.of(
+                "Complete ML Course",
+                "Build Kaggle Project",
+                "Learn Python Advanced",
+                "Master Statistical Analysis",
+                "Create Data Pipeline",
+                "Build Prediction Model"
+        ));
+        templates.put(CareerTrack.PRODUCT_MANAGEMENT.name(), List.of(
+                "Define Product Roadmap",
+                "Conduct User Research",
+                "Learn Agile Methodology",
+                "Create PRD Template",
+                "Launch Product Feature",
+                "Run A/B Testing"
+        ));
+        templates.put(CareerTrack.DESIGN.name(), List.of(
+                "Master Figma",
+                "Build Design System",
+                "Learn UX Research",
+                "Create Portfolio",
+                "Design Mobile App",
+                "Study Accessibility"
+        ));
+        templates.put(CareerTrack.MARKETING.name(), List.of(
+                "Learn SEO Basics",
+                "Run Ad Campaign",
+                "Master Analytics",
+                "Build Content Strategy",
+                "Social Media Growth",
+                "Email Marketing Setup"
+        ));
         templates.put(CareerTrack.JAVA_BACKEND_DEVELOPER.name(), List.of(
                 "Master Spring Boot fundamentals",
                 "Build and deploy a REST API",

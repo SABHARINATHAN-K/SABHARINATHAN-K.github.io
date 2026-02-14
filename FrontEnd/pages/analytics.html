@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Analytics - CareerPath</title>
+  <link rel="stylesheet" href="../assets/css/styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="./dashboard.html">
+        <span class="brand-mark">CP</span>
+        <span class="gradient-text">CareerPath</span>
+      </a>
+
+      <nav class="topnav">
+        <a class="nav-link" href="./dashboard.html">Dashboard</a>
+        <a class="nav-link" href="./goals.html">Goals</a>
+        <a class="nav-link active" href="./analytics.html">Analytics</a>
+        <a class="nav-link" href="./profile.html">Profile</a>
+      </nav>
+
+      <button id="logoutBtn" class="btn btn-muted btn-small" type="button">Logout</button>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <div class="container">
+      <section class="page-header">
+        <div>
+          <h1>Analytics Dashboard</h1>
+          <p>Comprehensive insights into your goal progress and achievements.</p>
+        </div>
+      </section>
+
+      <section class="analytics-metrics">
+        <article class="metric-card">
+          <p class="text-muted">Total Goals</p>
+          <p class="value" id="metricTotal">0</p>
+        </article>
+        <article class="metric-card">
+          <p class="text-muted">In Progress</p>
+          <p class="value" id="metricInProgress">0</p>
+        </article>
+        <article class="metric-card">
+          <p class="text-muted">Completed</p>
+          <p class="value" id="metricCompleted">0</p>
+        </article>
+        <article class="metric-card">
+          <p class="text-muted">Completion Rate</p>
+          <p class="value" id="metricRate">0%</p>
+        </article>
+      </section>
+
+      <section class="analytics-grid">
+        <article class="chart-card">
+          <h3>Status Distribution</h3>
+          <div style="display: grid; place-items: center; margin-top: 0.6rem;">
+            <div class="completion-ring" id="statusDonut" style="--progress:0; position: relative;">
+              <div class="center">
+                <strong id="statusRateText">0%</strong>
+                <span class="text-muted">Completed</span>
+              </div>
+            </div>
+          </div>
+          <div class="legend" id="statusLegend"></div>
+        </article>
+
+        <article class="chart-card">
+          <h3>Goals by Category</h3>
+          <div id="categoryBars" class="bars" style="margin-top: 0.7rem;"></div>
+        </article>
+
+        <article class="chart-card">
+          <h3>Priority Levels</h3>
+          <div id="priorityBars" class="bars" style="margin-top: 0.7rem;"></div>
+        </article>
+
+        <article class="chart-card">
+          <h3>Summary</h3>
+          <div class="summary-list">
+            <div class="summary-item" style="border-left-color:#3b82f6">
+              <p>Total Active Goals</p>
+              <strong id="summaryActiveGoals">0</strong>
+            </div>
+            <div class="summary-item" style="border-left-color:#22c55e">
+              <p>Achievement Rate</p>
+              <strong id="summaryAchievementRate">0%</strong>
+            </div>
+            <div class="summary-item" style="border-left-color:#a855f7">
+              <p>Goals Remaining</p>
+              <strong id="summaryRemaining">0</strong>
+            </div>
+            <div class="summary-item" style="border-left-color:#f59e0b">
+              <p>Active Categories</p>
+              <strong id="summaryCategories">0</strong>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <pre id="messageBox" class="message">Ready.</pre>
+    </div>
+  </main>
+
+  <div id="toast" class="toast"></div>
+
+  <script src="../assets/js/config.js"></script>
+  <script src="../assets/js/ui.js"></script>
+  <script src="../assets/js/api.js"></script>
+  <script src="../assets/js/analytics.js"></script>
+</body>
+</html>

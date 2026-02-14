@@ -3,46 +3,71 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Register - Career Planning</title>
+  <title>Register - CareerPath</title>
   <link rel="stylesheet" href="../assets/css/styles.css" />
 </head>
 <body>
-  <main class="auth-layout">
-    <section class="auth-side">
-      <p class="eyebrow">Start Strong</p>
-      <h1>Create your personalized career journey</h1>
-      <p>Choose your role and career track. We will use it to personalize goal templates and dashboard insights.</p>
-      <a href="../index.html" class="text-link">Back to Home</a>
+  <main class="auth-shell">
+    <section class="auth-panel-info">
+      <p class="eyebrow">Career Planning Platform</p>
+      <h1>Start Your Career Journey Today</h1>
+      <p>
+        Create your account, pick your role and track, and unlock a focused planning workspace.
+      </p>
+      <ul class="auth-feature-list">
+        <li>Set personalized career goals</li>
+        <li>Track progress with analytics</li>
+        <li>Use track-based goal templates</li>
+        <li>Monitor completion rate and priorities</li>
+      </ul>
+      <a class="btn btn-ghost" href="../index.html">Back to Home</a>
     </section>
 
-    <section class="auth-card">
-      <h2>Create Account</h2>
-      <form id="registerForm" class="form">
-        <label>Full Name
-          <input id="fullName" type="text" placeholder="Your name" required />
-        </label>
-        <label>Email
-          <input id="email" type="email" placeholder="you@example.com" required />
-        </label>
-        <label>Password
-          <input id="password" type="password" minlength="8" placeholder="Min 8 characters" required />
-        </label>
-        <label>Role
-          <select id="role" required>
-            <option value="">Loading roles...</option>
-          </select>
-        </label>
-        <label>Career Track
-          <select id="careerTrack" required>
-            <option value="">Loading tracks...</option>
-          </select>
-        </label>
-        <button id="registerBtn" type="submit" class="btn full">Register</button>
-      </form>
-      <p class="muted">Already registered? <a href="./login.html">Login</a></p>
-      <pre id="messageBox" class="message">Ready.</pre>
+    <section class="auth-panel-form">
+      <div class="auth-form-card">
+        <h2>Create Account</h2>
+        <p>Start planning your next career milestone.</p>
+
+        <form id="registerForm" class="form">
+          <div class="form-group">
+            <label for="fullName">Full Name</label>
+            <input id="fullName" type="text" placeholder="John Doe" required />
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <input id="email" type="email" placeholder="you@example.com" required />
+          </div>
+
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input id="password" type="password" minlength="8" placeholder="Minimum 8 characters" required />
+          </div>
+
+          <div class="form-group">
+            <label for="role">Current Role</label>
+            <select id="role" required>
+              <option value="">Loading roles...</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="careerTrack">Career Track</label>
+            <select id="careerTrack" required>
+              <option value="">Loading tracks...</option>
+            </select>
+          </div>
+
+          <button id="registerBtn" type="submit" class="btn btn-primary btn-block">Create Account</button>
+        </form>
+
+        <p class="footer-link">Already have an account? <a href="./login.html">Sign in</a></p>
+        <pre id="messageBox" class="message">Ready.</pre>
+      </div>
     </section>
   </main>
+
+  <div id="toast" class="toast"></div>
 
   <script src="../assets/js/config.js"></script>
   <script src="../assets/js/ui.js"></script>

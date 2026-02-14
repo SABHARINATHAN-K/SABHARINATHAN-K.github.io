@@ -3,79 +3,115 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Dashboard - Career Planning</title>
+  <title>Dashboard - CareerPath</title>
   <link rel="stylesheet" href="../assets/css/styles.css" />
 </head>
 <body>
   <header class="topbar">
-    <a class="brand" href="./dashboard.html">Career Planning</a>
-    <nav>
-      <a href="./goals.html">Goals</a>
-      <button id="logoutBtn" class="link-btn" type="button">Logout</button>
-    </nav>
+    <div class="topbar-inner">
+      <a class="brand" href="./dashboard.html">
+        <span class="brand-mark">CP</span>
+        <span class="gradient-text">CareerPath</span>
+      </a>
+
+      <nav class="topnav">
+        <a class="nav-link active" href="./dashboard.html">Dashboard</a>
+        <a class="nav-link" href="./goals.html">Goals</a>
+        <a class="nav-link" href="./analytics.html">Analytics</a>
+        <a class="nav-link" href="./profile.html">Profile</a>
+      </nav>
+
+      <div class="user-chip">
+        <div class="user-avatar" id="navUserInitial">U</div>
+        <div class="meta">
+          <strong id="navUserName">User</strong>
+          <span id="navUserEmail">-</span>
+        </div>
+        <button id="logoutBtn" class="btn btn-muted btn-small" type="button">Logout</button>
+      </div>
+    </div>
   </header>
 
-  <main class="container">
-    <section class="hero-card">
-      <div>
-        <p class="eyebrow">Dashboard</p>
-        <h1 id="welcomeText">Welcome</h1>
-        <p class="muted">Track your growth by role, career track, and goal completion.</p>
-      </div>
-      <a class="btn" href="./goals.html">Manage Goals</a>
-    </section>
-
-    <section class="grid stats-grid">
-      <article class="stat-card">
-        <p>Total Goals</p>
-        <h3 id="statTotal">0</h3>
-      </article>
-      <article class="stat-card">
-        <p>Planned</p>
-        <h3 id="statPlanned">0</h3>
-      </article>
-      <article class="stat-card">
-        <p>In Progress</p>
-        <h3 id="statInProgress">0</h3>
-      </article>
-      <article class="stat-card">
-        <p>Completed</p>
-        <h3 id="statCompleted">0</h3>
-      </article>
-    </section>
-
-    <section class="grid dashboard-grid">
-      <article class="card profile-card">
-        <h2>My Profile</h2>
-        <div class="profile-grid">
-          <div class="profile-item">
-            <span>Full Name</span>
-            <p id="profileName">-</p>
-          </div>
-          <div class="profile-item">
-            <span>Email</span>
-            <p id="profileEmail">-</p>
-          </div>
-          <div class="profile-item">
-            <span>Role</span>
-            <p id="profileRole">-</p>
-          </div>
-          <div class="profile-item">
-            <span>Career Track</span>
-            <p id="profileCareerTrack">-</p>
-          </div>
+  <main class="main-content">
+    <div class="container">
+      <section class="hero-card">
+        <div>
+          <p class="eyebrow">Dashboard</p>
+          <h1 id="welcomeText">Welcome back</h1>
+          <p class="text-muted">Track progress, review recent goals, and keep momentum.</p>
         </div>
-        <p id="profileStatus" class="muted profile-status">Loading profile...</p>
-      </article>
-
-      <article class="card">
-        <div class="row-between">
-          <h2>Recommended Goal Templates</h2>
-          <span class="pill" id="careerPill">Career</span>
+        <div class="toolbar-actions">
+          <a class="btn btn-primary" href="./goals.html">Manage Goals</a>
+          <a class="btn btn-ghost" href="./analytics.html">View Analytics</a>
         </div>
-        <div id="templateList" class="template-list"></div>
-      </article>
-    </section>
+      </section>
+
+      <section class="stat-grid">
+        <article class="stat-card">
+          <p class="label">Total Goals</p>
+          <p class="value" id="statTotal">0</p>
+        </article>
+        <article class="stat-card">
+          <p class="label">Planned</p>
+          <p class="value" id="statPlanned">0</p>
+        </article>
+        <article class="stat-card">
+          <p class="label">In Progress</p>
+          <p class="value" id="statInProgress">0</p>
+        </article>
+        <article class="stat-card">
+          <p class="label">Completed</p>
+          <p class="value" id="statCompleted">0</p>
+        </article>
+      </section>
+
+      <section class="dashboard-grid">
+        <div class="stack">
+          <article class="profile-summary">
+            <p class="eyebrow" style="color: #dbeafe">Your Profile</p>
+            <h2 id="profileName">-</h2>
+            <div class="meta-line"><span id="profileEmail">-</span></div>
+            <div class="meta-line"><span id="profileRole">-</span></div>
+            <div class="meta-line"><span id="profileCareerTrack">-</span></div>
+            <p id="profileStatus" style="margin-top: 0.45rem; color: #eff6ff">Loading profile...</p>
+            <div class="summary-actions">
+              <a class="btn btn-ghost" href="./profile.html">Edit Profile</a>
+              <a class="btn btn-ghost" href="./analytics.html">Analytics</a>
+            </div>
+          </article>
+
+          <article class="section-card">
+            <div class="section-header">
+              <h3>Recent Goals</h3>
+              <a class="btn btn-ghost btn-small" href="./goals.html">View All</a>
+            </div>
+            <div id="recentGoalsList" class="recent-list"></div>
+          </article>
+        </div>
+
+        <div class="stack">
+          <article class="section-card">
+            <div class="section-header">
+              <h3>Completion Rate</h3>
+            </div>
+            <div class="completion-ring" id="completionRing" style="--progress:0">
+              <div class="center">
+                <strong id="completionRateValue">0%</strong>
+                <span class="text-muted">Completed</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="section-card">
+            <div class="section-header">
+              <h3>Goal Templates</h3>
+              <span class="chip" id="careerPill">Career</span>
+            </div>
+            <div id="templateList" class="template-list"></div>
+          </article>
+        </div>
+      </section>
+    </div>
   </main>
 
   <div id="toast" class="toast"></div>

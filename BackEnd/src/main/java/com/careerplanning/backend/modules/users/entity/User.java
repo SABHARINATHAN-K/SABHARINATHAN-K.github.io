@@ -33,6 +33,11 @@ public class User {
     @Column(nullable = false)
     private String careerTrack = CareerTrack.FULL_STACK_DEVELOPER.name();
 
+    @Column(length = 2000)
+    private String bio;
+
+    private String location;
+
     @Column(nullable = false)
     private Instant createdAt = Instant.now();
 
@@ -86,6 +91,22 @@ public class User {
 
     public void setCareerTrack(String careerTrack) {
         this.careerTrack = careerTrack;
+    }
+
+    public String getBio() {
+        return bio;
+    }
+
+    public void setBio(String bio) {
+        this.bio = bio;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 
     public Instant getCreatedAt() {

@@ -3,6 +3,7 @@ package com.careerplanning.backend.modules.goals.controller;
 import com.careerplanning.backend.common.response.ApiResponse;
 import com.careerplanning.backend.modules.goals.dto.CreateGoalRequest;
 import com.careerplanning.backend.modules.goals.dto.GoalResponse;
+import com.careerplanning.backend.modules.goals.dto.GoalStatsResponse;
 import com.careerplanning.backend.modules.goals.dto.UpdateGoalRequest;
 import com.careerplanning.backend.modules.goals.service.GoalService;
 import jakarta.validation.Valid;
@@ -37,6 +38,17 @@ public class GoalController {
     @GetMapping
     public ApiResponse<List<GoalResponse>> listGoals(@RequestHeader("X-Auth-Token") String token) {
         return ApiResponse.success(goalService.listGoals(token));
+    }
+
+    @GetMapping("/stats")
+    public ApiResponse<GoalStatsResponse> getGoalStats(@RequestHeader("X-Auth-Token") String token) {
+        return ApiResponse.success(goalService.getGoalStats(token));
+    }
+
+    @GetMapping("/{goalId}")
+    public ApiResponse<GoalResponse> getGoalById(@RequestHeader("X-Auth-Token") String token,
+                                                 @PathVariable Long goalId) {
+        return ApiResponse.success(goalService.getGoalById(token, goalId));
     }
 
     @PutMapping("/{goalId}")

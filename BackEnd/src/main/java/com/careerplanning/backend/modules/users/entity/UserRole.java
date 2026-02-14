@@ -5,6 +5,9 @@ import java.util.List;
 
 public enum UserRole {
     STUDENT,
+    PROFESSIONAL,
+    MANAGER,
+    EXECUTIVE,
     FRESH_GRADUATE,
     WORKING_PROFESSIONAL,
     CAREER_SWITCHER;

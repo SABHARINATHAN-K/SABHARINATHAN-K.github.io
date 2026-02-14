@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Goal Detail - CareerPath</title>
+  <link rel="stylesheet" href="../assets/css/styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="./dashboard.html">
+        <span class="brand-mark">CP</span>
+        <span class="gradient-text">CareerPath</span>
+      </a>
+
+      <nav class="topnav">
+        <a class="nav-link" href="./dashboard.html">Dashboard</a>
+        <a class="nav-link active" href="./goals.html">Goals</a>
+        <a class="nav-link" href="./analytics.html">Analytics</a>
+        <a class="nav-link" href="./profile.html">Profile</a>
+      </nav>
+
+      <button id="logoutBtn" class="btn btn-muted btn-small" type="button">Logout</button>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <div class="container">
+      <a class="btn btn-ghost btn-small" href="./goals.html" style="margin-bottom: 0.8rem;">Back to Goals</a>
+
+      <section class="detail-header">
+        <div class="goal-title-row" style="margin-bottom: 0.4rem;">
+          <div>
+            <div style="display:flex;gap:0.45rem;flex-wrap:wrap;margin-bottom:0.4rem;">
+              <span id="statusBadge" class="status-pill status-planned">Planned</span>
+              <span id="priorityBadge" class="priority-pill priority-medium">Medium Priority</span>
+            </div>
+            <h1 id="goalTitle" style="font-size: clamp(1.55rem, 2.8vw, 2.2rem);">Goal</h1>
+            <p id="goalDescription" class="text-muted" style="margin-top:0.3rem;">Description</p>
+          </div>
+        </div>
+
+        <div class="detail-meta-grid">
+          <div class="meta-card"><span>Category</span><strong id="metaCategory">-</strong></div>
+          <div class="meta-card"><span>Target Date</span><strong id="metaTargetDate">-</strong></div>
+          <div class="meta-card"><span>Created</span><strong id="metaCreatedDate">-</strong></div>
+          <div class="meta-card"><span>Progress</span><strong id="metaProgress">0%</strong></div>
+        </div>
+      </section>
+
+      <section class="detail-layout">
+        <div class="stack">
+          <article class="section-card">
+            <h3 style="margin-bottom:0.6rem;">Update Progress</h3>
+            <div class="range-wrap">
+              <div style="display:flex;justify-content:space-between;align-items:center;">
+                <span class="text-muted">Progress</span>
+                <strong id="progressValue">0%</strong>
+              </div>
+              <input id="progressRange" type="range" min="0" max="100" value="0" />
+              <button id="saveProgressBtn" class="btn btn-primary" type="button">Save Progress</button>
+            </div>
+          </article>
+
+          <article class="section-card">
+            <h3 style="margin-bottom:0.6rem;">Change Status</h3>
+            <div class="status-options">
+              <button data-status="PLANNED" class="btn btn-ghost" type="button">Planned</button>
+              <button data-status="IN_PROGRESS" class="btn btn-ghost" type="button">In Progress</button>
+              <button data-status="COMPLETED" class="btn btn-ghost" type="button">Completed</button>
+            </div>
+          </article>
+
+          <article class="section-card">
+            <h3 style="margin-bottom:0.6rem;">Notes</h3>
+            <textarea id="notesInput" placeholder="Add notes about this goal..."></textarea>
+            <button id="saveNotesBtn" class="btn btn-secondary" type="button" style="margin-top:0.6rem;">Save Notes</button>
+          </article>
+        </div>
+
+        <aside class="stack">
+          <article id="tagsPanel" class="section-card hidden">
+            <h3 style="margin-bottom:0.6rem;">Tags</h3>
+            <div id="tagsList" class="tag-list"></div>
+          </article>
+
+          <article class="section-card">
+            <h3 style="margin-bottom:0.6rem;">Quick Actions</h3>
+            <div class="stack" style="gap:0.5rem;">
+              <a class="btn btn-ghost" href="./goals.html">Open Goals Workspace</a>
+              <button id="deleteGoalBtn" class="btn btn-danger" type="button">Delete Goal</button>
+            </div>
+          </article>
+        </aside>
+      </section>
+
+      <pre id="messageBox" class="message">Ready.</pre>
+    </div>
+  </main>
+
+  <div id="toast" class="toast"></div>
+
+  <script src="../assets/js/config.js"></script>
+  <script src="../assets/js/ui.js"></script>
+  <script src="../assets/js/api.js"></script>
+  <script src="../assets/js/goal-detail.js"></script>
+</body>
+</html>

@@ -1,18 +1,39 @@
-const createForm = document.getElementById("createForm");
-const updateForm = document.getElementById("updateForm");
-const createBtn = document.getElementById("createBtn");
-const updateBtn = document.getElementById("updateBtn");
+const logoutBtn = document.getElementById("logoutBtn");
 const refreshBtn = document.getElementById("refreshBtn");
 const searchInput = document.getElementById("searchInput");
 const statusFilter = document.getElementById("statusFilter");
-const goalsBody = document.getElementById("goalsBody");
+const priorityFilter = document.getElementById("priorityFilter");
+const categoryFilter = document.getElementById("categoryFilter");
+const clearFiltersBtn = document.getElementById("clearFiltersBtn");
+const resultText = document.getElementById("resultText");
+const goalsGrid = document.getElementById("goalsGrid");
 const messageBox = document.getElementById("messageBox");
+
+const toggleTemplatesBtn = document.getElementById("toggleTemplatesBtn");
+const closeTemplatesBtn = document.getElementById("closeTemplatesBtn");
+const templatesPanel = document.getElementById("templatesPanel");
 const templateCareerTrack = document.getElementById("templateCareerTrack");
 const templateButtons = document.getElementById("templateButtons");
-const logoutBtn = document.getElementById("logoutBtn");
+
+const createModal = document.getElementById("createModal");
+const newGoalBtn = document.getElementById("newGoalBtn");
+const closeCreateModalBtn = document.getElementById("closeCreateModalBtn");
+const cancelCreateBtn = document.getElementById("cancelCreateBtn");
+const createForm = document.getElementById("createForm");
+const createBtn = document.getElementById("createBtn");
+
+const createTitle = document.getElementById("createTitle");
+const createDescription = document.getElementById("createDescription");
+const createTargetDate = document.getElementById("createTargetDate");
+const createPriority = document.getElementById("createPriority");
+const createCategory = document.getElementById("createCategory");
+const createTags = document.getElementById("createTags");
 
 let allGoals = [];
-let templateMap = {};
+let templatesMap = {};
+let careerTracks = [];
+let priorities = [];
+let categories = [];
 
 if (AppApi.requireAuth()) {
   initGoalsPage();
@@ -26,100 +47,108 @@ logoutBtn.addEventListener("click", () => {
 refreshBtn.addEventListener("click", loadGoals);
 searchInput.addEventListener("input", applyFilters);
 statusFilter.addEventListener("change", applyFilters);
+priorityFilter.addEventListener("change", applyFilters);
+categoryFilter.addEventListener("change", applyFilters);
+clearFiltersBtn.addEventListener("click", clearFilters);
+
+toggleTemplatesBtn.addEventListener("click", () => {
+  templatesPanel.classList.toggle("hidden");
+});
+
+closeTemplatesBtn.addEventListener("click", () => {
+  templatesPanel.classList.add("hidden");
+});
+
 templateCareerTrack.addEventListener("change", renderTemplateButtons);
 
-createForm.addEventListener("submit", async (event) => {
-  event.preventDefault();
-  const title = document.getElementById("createTitle").value.trim();
-  const description = document.getElementById("createDescription").value.trim();
-  const targetDate = document.getElementById("createTargetDate").value || null;
+newGoalBtn.addEventListener("click", () => openCreateModal());
+closeCreateModalBtn.addEventListener("click", closeCreateModal);
+cancelCreateBtn.addEventListener("click", closeCreateModal);
 
-  AppUi.setLoading(createBtn, true, "Creating...");
-
-  try {
-    await AppApi.request("/api/v1/goals", {
-      method: "POST",
-      body: { title, description, targetDate }
-    });
-    createForm.reset();
-    AppUi.setMessage(messageBox, "Goal created successfully.");
-    AppUi.showToast("Goal created");
-    await loadGoals();
-  } catch (error) {
-    AppUi.setMessage(messageBox, error.message);
-  } finally {
-    AppUi.setLoading(createBtn, false);
+createModal.addEventListener("click", (event) => {
+  if (event.target === createModal) {
+    closeCreateModal();
   }
 });
 
-updateForm.addEventListener("submit", async (event) => {
-  event.preventDefault();
-  const goalId = document.getElementById("updateId").value;
-  const title = document.getElementById("updateTitle").value.trim();
-  const description = document.getElementById("updateDescription").value.trim();
-  const status = document.getElementById("updateStatus").value;
-  const targetDate = document.getElementById("updateTargetDate").value || null;
-
-  AppUi.setLoading(updateBtn, true, "Updating...");
-
-  try {
-    await AppApi.request(`/api/v1/goals/${goalId}`, {
-      method: "PUT",
-      body: { title, description, status, targetDate }
-    });
-    AppUi.setMessage(messageBox, `Goal ${goalId} updated.`);
-    AppUi.showToast("Goal updated");
-    await loadGoals();
-  } catch (error) {
-    AppUi.setMessage(messageBox, error.message);
-  } finally {
-    AppUi.setLoading(updateBtn, false);
-  }
-});
+createForm.addEventListener("submit", handleCreateGoal);
 
 async function initGoalsPage() {
-  prefillFromQuery();
-  await loadTemplates();
-  await loadGoals();
+  try {
+    await loadLookups();
+    prefillFromQuery();
+    await loadGoals();
+  } catch (error) {
+    AppUi.setMessage(messageBox, `Failed to initialize goals page: ${error.message}`);
+    AppUi.showToast(error.message, "error");
+  }
 }
 
-async function loadTemplates() {
-  try {
-    templateMap = await AppApi.listGoalTemplates();
-    const trackOptions = Object.keys(templateMap)
-      .map((track) => `<option value="${track}">${AppUi.humanize(track)}</option>`)
-      .join("");
+async function loadLookups() {
+  const [tracks, priorityValues, categoryValues, templates] = await Promise.all([
+    AppApi.listCareerTracks(),
+    AppApi.listGoalPriorities(),
+    AppApi.listGoalCategories(),
+    AppApi.listGoalTemplates()
+  ]);
 
-    templateCareerTrack.innerHTML = trackOptions || "<option value=''>No templates</option>";
-    renderTemplateButtons();
-  } catch (error) {
-    AppUi.setMessage(messageBox, `Could not load templates: ${error.message}`);
+  careerTracks = tracks || [];
+  priorities = priorityValues || [];
+  categories = categoryValues || [];
+  templatesMap = templates || {};
+
+  setOptions(templateCareerTrack, careerTracks);
+  setOptions(createPriority, priorities, "MEDIUM");
+  setOptions(createCategory, categories, "LEARNING");
+  setFilterOptions(priorityFilter, priorities, "All Priorities");
+  setFilterOptions(categoryFilter, categories, "All Categories");
+
+  renderTemplateButtons();
+}
+
+function setOptions(selectElement, values, preferred) {
+  selectElement.innerHTML = values
+    .map((value) => `<option value="${AppUi.escapeAttr(value)}">${AppUi.escapeHtml(AppUi.humanize(value))}</option>`)
+    .join("");
+
+  if (preferred && values.includes(preferred)) {
+    selectElement.value = preferred;
   }
+}
+
+function setFilterOptions(selectElement, values, allLabel) {
+  selectElement.innerHTML = [
+    `<option value="ALL">${allLabel}</option>`,
+    ...values.map((value) => `<option value="${AppUi.escapeAttr(value)}">${AppUi.escapeHtml(AppUi.humanize(value))}</option>`)
+  ].join("");
 }
 
 function renderTemplateButtons() {
   const selectedTrack = templateCareerTrack.value;
-  const templates = templateMap[selectedTrack] || [];
+  const templates = templatesMap[selectedTrack] || [];
 
   if (!templates.length) {
-    templateButtons.innerHTML = "<p class='muted'>No templates for this track.</p>";
+    templateButtons.innerHTML = "<p class='text-muted'>No templates available for this track.</p>";
     return;
   }
 
   templateButtons.innerHTML = templates
     .map((template) => {
-      return `<div class="template-item">
-        <p>${escapeHtml(template)}</p>
-        <button class="template-add" data-template="${escapeAttr(template)}" type="button">Apply</button>
-      </div>`;
+      return `
+        <div class="template-item">
+          <p>${AppUi.escapeHtml(template)}</p>
+          <button class="btn btn-ghost btn-small" data-template="${AppUi.escapeAttr(template)}" type="button">Apply</button>
+        </div>`;
     })
     .join("");
 
   templateButtons.querySelectorAll("button[data-template]").forEach((button) => {
     button.addEventListener("click", () => {
       const template = button.getAttribute("data-template") || "";
-      document.getElementById("createTitle").value = template;
-      document.getElementById("createDescription").value = `Planned from template: ${template}`;
+      createTitle.value = template;
+      createDescription.value = `Planned from template: ${template}`;
+      openCreateModal();
+      templatesPanel.classList.add("hidden");
       AppUi.showToast("Template applied");
     });
   });
@@ -127,83 +156,155 @@ function renderTemplateButtons() {
 
 async function loadGoals() {
   try {
-    const res = await AppApi.request("/api/v1/goals");
-    allGoals = res.data || [];
+    allGoals = await AppApi.listGoals();
     applyFilters();
     AppUi.setMessage(messageBox, `Loaded ${allGoals.length} goal(s).`);
   } catch (error) {
     AppUi.setMessage(messageBox, error.message);
+    AppUi.showToast(error.message, "error");
   }
 }
 
-function applyFilters() {
-  const query = searchInput.value.trim().toLowerCase();
-  const status = statusFilter.value;
+function clearFilters() {
+  searchInput.value = "";
+  statusFilter.value = "ALL";
+  priorityFilter.value = "ALL";
+  categoryFilter.value = "ALL";
+  applyFilters();
+}
 
-  const filteredGoals = allGoals.filter((goal) => {
+function applyFilters() {
+  const searchQuery = searchInput.value.trim().toLowerCase();
+  const status = statusFilter.value;
+  const priority = priorityFilter.value;
+  const category = categoryFilter.value;
+
+  const filtered = allGoals.filter((goal) => {
     const matchesStatus = status === "ALL" || goal.status === status;
+    const matchesPriority = priority === "ALL" || goal.priority === priority;
+    const matchesCategory = category === "ALL" || goal.category === category;
+
     const searchable = `${goal.title || ""} ${goal.description || ""}`.toLowerCase();
-    const matchesSearch = !query || searchable.includes(query);
-    return matchesStatus && matchesSearch;
+    const matchesSearch = !searchQuery || searchable.includes(searchQuery);
+
+    return matchesStatus && matchesPriority && matchesCategory && matchesSearch;
   });
 
-  renderGoals(filteredGoals);
+  resultText.textContent = `Showing ${filtered.length} of ${allGoals.length} goals`;
+  renderGoals(filtered);
 }
 
 function renderGoals(goals) {
   if (!goals.length) {
-    goalsBody.innerHTML = "<tr><td colspan='6'>No matching goals found.</td></tr>";
+    goalsGrid.innerHTML = `
+      <div class="empty-state" style="grid-column: 1 / -1;">
+        <h3>No goals found</h3>
+        <p>${allGoals.length ? "Try adjusting your filters." : "Start by creating your first goal."}</p>
+        <button class="btn btn-primary" id="emptyCreateBtn" type="button" style="margin-top:0.65rem;">Create Goal</button>
+      </div>`;
+
+    const emptyCreateBtn = document.getElementById("emptyCreateBtn");
+    if (emptyCreateBtn) {
+      emptyCreateBtn.addEventListener("click", openCreateModal);
+    }
     return;
   }
 
-  goalsBody.innerHTML = goals
+  goalsGrid.innerHTML = goals
     .map((goal) => {
-      return `<tr>
-        <td>${goal.id}</td>
-        <td>${escapeHtml(goal.title || "")}</td>
-        <td>${escapeHtml(goal.description || "")}</td>
-        <td>${escapeHtml(goal.status || "")}</td>
-        <td>${escapeHtml(goal.targetDate || "-")}</td>
-        <td>
-          <div class="action-group">
-            <button class="action-btn edit" data-edit-id="${goal.id}" type="button">Edit</button>
-            <button class="action-btn delete" data-delete-id="${goal.id}" type="button">Delete</button>
+      return `
+        <article class="goal-card">
+          <div class="top">
+            <span class="status-pill ${statusClass(goal.status)}">${AppUi.escapeHtml(AppUi.humanize(goal.status || "PLANNED"))}</span>
+            <span class="priority-pill ${priorityClass(goal.priority)}">${AppUi.escapeHtml(AppUi.humanize(goal.priority || "MEDIUM"))}</span>
           </div>
-        </td>
-      </tr>`;
+
+          <h3>${AppUi.escapeHtml(goal.title || "Untitled Goal")}</h3>
+          <p class="text-muted">${AppUi.escapeHtml(goal.description || "No description")}</p>
+
+          <div class="progress-line">
+            <div class="progress-track"><div class="progress-value" style="width:${Number(goal.progress || 0)}%"></div></div>
+            <strong>${Number(goal.progress || 0)}%</strong>
+          </div>
+
+          <div class="goal-meta">
+            <span>${goal.targetDate ? AppUi.formatDate(goal.targetDate) : "No deadline"}</span>
+            <span class="chip">${AppUi.escapeHtml(AppUi.humanize(goal.category || "LEARNING"))}</span>
+          </div>
+
+          <div class="actions">
+            <a class="btn btn-ghost btn-small" href="./goal-detail.html?id=${goal.id}">View</a>
+            <button class="btn btn-danger btn-small" data-delete-id="${goal.id}" type="button">Delete</button>
+          </div>
+        </article>`;
     })
     .join("");
 
-  goalsBody.querySelectorAll("button[data-edit-id]").forEach((button) => {
-    button.addEventListener("click", () => {
-      const goalId = Number(button.getAttribute("data-edit-id"));
-      const goal = allGoals.find((item) => item.id === goalId);
-      if (!goal) {
+  goalsGrid.querySelectorAll("button[data-delete-id]").forEach((button) => {
+    button.addEventListener("click", async () => {
+      const goalId = button.getAttribute("data-delete-id");
+      if (!goalId) {
         return;
       }
 
-      document.getElementById("updateId").value = goal.id;
-      document.getElementById("updateTitle").value = goal.title || "";
-      document.getElementById("updateDescription").value = goal.description || "";
-      document.getElementById("updateStatus").value = goal.status || "PLANNED";
-      document.getElementById("updateTargetDate").value = goal.targetDate || "";
-      AppUi.showToast(`Goal ${goalId} loaded into update form`);
-    });
-  });
+      if (!window.confirm("Are you sure you want to delete this goal?")) {
+        return;
+      }
 
-  goalsBody.querySelectorAll("button[data-delete-id]").forEach((button) => {
-    button.addEventListener("click", async () => {
-      const goalId = button.getAttribute("data-delete-id");
       try {
-        await AppApi.request(`/api/v1/goals/${goalId}`, { method: "DELETE" });
-        AppUi.setMessage(messageBox, `Goal ${goalId} deleted.`);
+        await AppApi.deleteGoal(goalId);
         AppUi.showToast("Goal deleted");
         await loadGoals();
       } catch (error) {
         AppUi.setMessage(messageBox, error.message);
+        AppUi.showToast(error.message, "error");
       }
     });
   });
+}
+
+async function handleCreateGoal(event) {
+  event.preventDefault();
+
+  const payload = {
+    title: createTitle.value.trim(),
+    description: createDescription.value.trim() || null,
+    targetDate: createTargetDate.value || null,
+    priority: createPriority.value || null,
+    category: createCategory.value || null,
+    tags: AppUi.parseTagText(createTags.value)
+  };
+
+  AppUi.setLoading(createBtn, true, "Creating...");
+
+  try {
+    await AppApi.createGoal(payload);
+    createForm.reset();
+
+    if (priorities.includes("MEDIUM")) {
+      createPriority.value = "MEDIUM";
+    }
+    if (categories.includes("LEARNING")) {
+      createCategory.value = "LEARNING";
+    }
+
+    closeCreateModal();
+    AppUi.showToast("Goal created successfully");
+    await loadGoals();
+  } catch (error) {
+    AppUi.setMessage(messageBox, error.message);
+    AppUi.showToast(error.message, "error");
+  } finally {
+    AppUi.setLoading(createBtn, false);
+  }
+}
+
+function openCreateModal() {
+  createModal.classList.add("show");
+}
+
+function closeCreateModal() {
+  createModal.classList.remove("show");
 }
 
 function prefillFromQuery() {
@@ -212,22 +313,31 @@ function prefillFromQuery() {
   const description = params.get("description");
 
   if (title) {
-    document.getElementById("createTitle").value = title;
-  }
-  if (description) {
-    document.getElementById("createDescription").value = description;
+    createTitle.value = title;
+    createDescription.value = description || "";
+    openCreateModal();
   }
 }
 
-function escapeHtml(value) {
-  return String(value)
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#039;");
+function statusClass(status) {
+  if (status === "COMPLETED") {
+    return "status-completed";
+  }
+  if (status === "IN_PROGRESS") {
+    return "status-in-progress";
+  }
+  return "status-planned";
 }
 
-function escapeAttr(value) {
-  return escapeHtml(value).replaceAll("`", "");
+function priorityClass(priority) {
+  if (priority === "URGENT") {
+    return "priority-urgent";
+  }
+  if (priority === "HIGH") {
+    return "priority-high";
+  }
+  if (priority === "LOW") {
+    return "priority-low";
+  }
+  return "priority-medium";
 }

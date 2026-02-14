@@ -1,0 +1,18 @@
+ALTER TABLE users
+    ADD COLUMN bio VARCHAR(2000) NULL,
+    ADD COLUMN location VARCHAR(255) NULL;
+
+ALTER TABLE goals
+    ADD COLUMN priority VARCHAR(20) NOT NULL DEFAULT 'MEDIUM',
+    ADD COLUMN category VARCHAR(50) NOT NULL DEFAULT 'LEARNING',
+    ADD COLUMN completed_date TIMESTAMP NULL,
+    ADD COLUMN progress INT NOT NULL DEFAULT 0,
+    ADD COLUMN notes VARCHAR(4000) NULL;
+
+CREATE TABLE IF NOT EXISTS goal_tags (
+    goal_id BIGINT NOT NULL,
+    tag_order INT NOT NULL,
+    tag VARCHAR(100) NOT NULL,
+    PRIMARY KEY (goal_id, tag_order),
+    CONSTRAINT fk_goal_tags_goal FOREIGN KEY (goal_id) REFERENCES goals(id) ON DELETE CASCADE
+);
