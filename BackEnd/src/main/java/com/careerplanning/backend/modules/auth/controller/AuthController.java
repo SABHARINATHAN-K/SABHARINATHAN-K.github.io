@@ -2,6 +2,7 @@ package com.careerplanning.backend.modules.auth.controller;
 
 import com.careerplanning.backend.common.response.ApiResponse;
 import com.careerplanning.backend.modules.auth.dto.AuthResponse;
+import com.careerplanning.backend.modules.auth.dto.GoogleSignInRequest;
 import com.careerplanning.backend.modules.auth.dto.LoginRequest;
 import com.careerplanning.backend.modules.auth.dto.RegisterRequest;
 import com.careerplanning.backend.modules.auth.service.AuthService;
@@ -29,5 +30,10 @@ public class AuthController {
     @PostMapping("/login")
     public ApiResponse<AuthResponse> login(@Valid @RequestBody LoginRequest request) {
         return ApiResponse.success(authService.login(request));
+    }
+
+    @PostMapping("/google")
+    public ApiResponse<AuthResponse> googleSignIn(@Valid @RequestBody GoogleSignInRequest request) {
+        return ApiResponse.success(authService.googleSignIn(request));
     }
 }

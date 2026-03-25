@@ -18,7 +18,9 @@ public enum CareerTrack {
     QA_ENGINEER,
     UI_UX_DESIGNER,
     PRODUCT_MANAGER,
-    CYBERSECURITY_ANALYST;
+    CYBERSECURITY_ANALYST,
+    AI_ML_ENGINEER,
+    BUSINESS_ANALYST;
 
     public static boolean isValid(String value) {
         if (value == null) {

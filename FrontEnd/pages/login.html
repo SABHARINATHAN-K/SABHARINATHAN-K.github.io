@@ -3,15 +3,21 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Login - CareerPath</title>
-  <link rel="stylesheet" href="../assets/css/styles.css" />
+  <title>Sign In - CareerPath</title>
+  <link rel="stylesheet" href="../assets/css/styles.css?v=20260325a" />
 </head>
 <body>
   <main class="auth-shell">
     <section class="auth-panel-form">
       <div class="auth-form-card">
-        <h2>Welcome Back</h2>
-        <p>Sign in to continue your career journey.</p>
+        <div class="portal-switch" role="tablist" aria-label="Portal selector">
+          <a id="portalUserLink" class="portal-switch-link" href="./login.html?portal=user">Learner</a>
+          <a id="portalAdminLink" class="portal-switch-link" href="./login.html?portal=admin">Admin</a>
+        </div>
+
+        <p id="portalBadge" class="eyebrow">Learner Portal</p>
+        <h2 id="loginHeading">Welcome back</h2>
+        <p id="loginSubheading">Sign in to continue your technical career planning workflow.</p>
 
         <form id="loginForm" class="form">
           <div class="form-group">
@@ -24,33 +30,39 @@
             <input id="password" type="password" placeholder="Enter your password" required />
           </div>
 
+          <p id="messageBox" class="text-muted" style="min-height: 1.25rem; margin-bottom: 0.75rem;"></p>
           <button id="loginBtn" type="submit" class="btn btn-primary btn-block">Sign In</button>
         </form>
 
-        <p class="footer-link">New here? <a href="./register.html">Create account</a></p>
-        <pre id="messageBox" class="message">Ready.</pre>
+        <div class="auth-divider"><span>or</span></div>
+        <div id="googleSignInContainer" class="google-signin-container hidden"></div>
+        <p id="googleSignInHint" class="field-help hidden">Google sign-in is not configured for this environment.</p>
+
+        <p id="loginFooterLink" class="footer-link">Need a learner account? <a href="./register.html">Create account</a></p>
       </div>
     </section>
 
     <section class="auth-panel-info">
-      <p class="eyebrow">Career Planning Platform</p>
-      <h1>Continue Building Your Career</h1>
-      <p>Access goals, track progress, update profile, and stay focused on growth.</p>
-      <ul class="auth-feature-list">
-        <li>View analytics dashboard</li>
-        <li>Manage goals and priorities</li>
-        <li>Update progress and notes</li>
-        <li>Use recommended templates</li>
+      <p id="infoEyebrow" class="eyebrow">Technical Readiness Workflow</p>
+      <h1 id="infoTitle">Log in to continue your plan</h1>
+      <p id="infoText">Use the learner portal for readiness checks, goals, and analytics. Use the admin portal for platform oversight.</p>
+      <ul id="infoList" class="auth-feature-list">
+        <li>Track readiness levels by domain</li>
+        <li>Review roadmap goals and execution</li>
+        <li>Compare reassessment checkpoints</li>
+        <li>Maintain question quality by role</li>
       </ul>
-      <a class="btn btn-ghost" href="../index.html">Back to Home</a>
+      <a class="btn btn-ghost" href="../index.html">Back to Portal Selection</a>
     </section>
   </main>
 
   <div id="toast" class="toast"></div>
 
-  <script src="../assets/js/config.js"></script>
-  <script src="../assets/js/ui.js"></script>
-  <script src="../assets/js/api.js"></script>
-  <script src="../assets/js/login.js"></script>
+  <script src="../assets/js/core/config.js?v=20260325a"></script>
+  <script src="../assets/js/core/ui.js?v=20260325a"></script>
+  <script src="../assets/js/core/api.js?v=20260325a"></script>
+  <script src="../assets/js/core/auth-guard.js?v=20260325a"></script>
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <script src="../assets/js/pages/login.js?v=20260325a"></script>
 </body>
 </html>

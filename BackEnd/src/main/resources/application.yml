@@ -16,3 +16,7 @@ spring:
 
 server:
   port: ${PORT:8080}
+
+google:
+  auth:
+    client-id: ${GOOGLE_AUTH_CLIENT_ID:}

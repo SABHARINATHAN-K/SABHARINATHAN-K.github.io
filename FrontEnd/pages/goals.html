@@ -4,17 +4,18 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Goals - CareerPath</title>
-  <link rel="stylesheet" href="../assets/css/styles.css" />
+  <link rel="stylesheet" href="../assets/css/styles.css?v=20260325a" />
 </head>
 <body>
   <header class="topbar">
     <div class="topbar-inner">
-      <a class="brand" href="./dashboard.html">
+      <a class="brand" href="./home.html">
         <span class="brand-mark">CP</span>
         <span class="gradient-text">CareerPath</span>
       </a>
 
       <nav class="topnav">
+        <a class="nav-link" href="./home.html">Home</a>
         <a class="nav-link" href="./dashboard.html">Dashboard</a>
         <a class="nav-link active" href="./goals.html">Goals</a>
         <a class="nav-link" href="./analytics.html">Analytics</a>
@@ -70,6 +71,17 @@
           <select id="categoryFilter">
             <option value="ALL">All Categories</option>
           </select>
+          <select id="blueprintFilter">
+            <option value="ALL">All Goal Types</option>
+            <option value="BLUEPRINT">Blueprint Goals</option>
+            <option value="MANUAL">Manual Goals</option>
+          </select>
+          <select id="sortBy">
+            <option value="UPDATED_DESC">Recently Updated</option>
+            <option value="TARGET_ASC">Nearest Target Date</option>
+            <option value="PROGRESS_DESC">Highest Progress</option>
+            <option value="TITLE_ASC">Title A-Z</option>
+          </select>
           <button id="refreshBtn" class="btn btn-secondary" type="button">Refresh</button>
         </div>
 
@@ -78,7 +90,14 @@
 
       <section id="goalsGrid" class="goal-grid"></section>
 
-      <pre id="messageBox" class="message">Ready.</pre>
+      <section class="panel discovery-nudge-panel">
+        <h3>Need to re-check technical readiness?</h3>
+        <p class="text-muted">Open the readiness check whenever you want to compare your current domain skill against your earlier attempts.</p>
+        <div class="toolbar-actions">
+          <a class="btn btn-ghost btn-small" href="./technical-readiness.html">Open Readiness Check</a>
+        </div>
+      </section>
+
     </div>
   </main>
 
@@ -136,9 +155,10 @@
 
   <div id="toast" class="toast"></div>
 
-  <script src="../assets/js/config.js"></script>
-  <script src="../assets/js/ui.js"></script>
-  <script src="../assets/js/api.js"></script>
-  <script src="../assets/js/goals.js"></script>
+  <script src="../assets/js/core/config.js?v=20260325a"></script>
+  <script src="../assets/js/core/ui.js?v=20260325a"></script>
+  <script src="../assets/js/core/api.js?v=20260325a"></script>
+  <script src="../assets/js/core/auth-guard.js?v=20260325a"></script>
+  <script src="../assets/js/pages/goals.js?v=20260325a"></script>
 </body>
 </html>

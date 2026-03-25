@@ -4,17 +4,18 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Dashboard - CareerPath</title>
-  <link rel="stylesheet" href="../assets/css/styles.css" />
+  <link rel="stylesheet" href="../assets/css/styles.css?v=20260325a" />
 </head>
 <body>
   <header class="topbar">
     <div class="topbar-inner">
-      <a class="brand" href="./dashboard.html">
+      <a class="brand" href="./home.html">
         <span class="brand-mark">CP</span>
         <span class="gradient-text">CareerPath</span>
       </a>
 
       <nav class="topnav">
+        <a class="nav-link" href="./home.html">Home</a>
         <a class="nav-link active" href="./dashboard.html">Dashboard</a>
         <a class="nav-link" href="./goals.html">Goals</a>
         <a class="nav-link" href="./analytics.html">Analytics</a>
@@ -38,11 +39,12 @@
         <div>
           <p class="eyebrow">Dashboard</p>
           <h1 id="welcomeText">Welcome back</h1>
-          <p class="text-muted">Track progress, review recent goals, and keep momentum.</p>
+          <p class="text-muted">Your daily command center for goals, technical readiness, and guided next actions.</p>
         </div>
         <div class="toolbar-actions">
           <a class="btn btn-primary" href="./goals.html">Manage Goals</a>
           <a class="btn btn-ghost" href="./analytics.html">View Analytics</a>
+          <button id="generateRoadmapBtn" class="btn btn-secondary" type="button">Generate Plan</button>
         </div>
       </section>
 
@@ -62,6 +64,52 @@
         <article class="stat-card">
           <p class="label">Completed</p>
           <p class="value" id="statCompleted">0</p>
+        </article>
+        <article class="stat-card">
+          <p class="label">Alignment Score</p>
+          <p class="value" id="statAlignment">0%</p>
+        </article>
+        <article class="stat-card">
+          <p class="label">Weekly Execution</p>
+          <p class="value" id="statWeekly">0%</p>
+        </article>
+        <article class="stat-card">
+          <p class="label">Tasks Due Soon</p>
+          <p class="value" id="statDueSoon">0</p>
+        </article>
+        <article class="stat-card">
+          <p class="label">Overdue Tasks</p>
+          <p class="value" id="statOverdue">0</p>
+        </article>
+      </section>
+
+      <section class="workflow-grid">
+        <article class="workflow-card">
+          <p class="eyebrow">Plan Health</p>
+          <h3 id="workflowAlignmentText">Alignment: 0%</h3>
+          <p id="workflowGapText" class="text-muted">No gap warnings right now.</p>
+          <div class="toolbar-actions">
+            <a class="btn btn-ghost btn-small" href="./analytics.html">Inspect Metrics</a>
+          </div>
+        </article>
+
+        <article class="workflow-card">
+          <p class="eyebrow">Current Focus</p>
+          <h3 id="focusTitle">Review your top priority action</h3>
+          <p id="focusDescription" class="text-muted">We will show your best next step from blueprint goals.</p>
+          <div class="toolbar-actions">
+            <a id="focusActionBtn" class="btn btn-primary btn-small" href="./goals.html">Open Goals</a>
+            <a class="btn btn-ghost btn-small" href="./profile.html">Review Profile</a>
+          </div>
+        </article>
+
+        <article class="workflow-card">
+          <p class="eyebrow">Quick Flow</p>
+          <div class="quick-flow-list">
+            <a class="quick-flow-item" href="./goals.html">Create or update today’s goal</a>
+            <a class="quick-flow-item" href="./analytics.html">Check weekly execution trend</a>
+            <a class="quick-flow-item" href="./profile.html">Review profile and career track</a>
+          </div>
         </article>
       </section>
 
@@ -87,6 +135,18 @@
             </div>
             <div id="recentGoalsList" class="recent-list"></div>
           </article>
+
+          <article class="section-card">
+            <div class="section-header">
+              <h3>Timeline</h3>
+              <div class="toolbar-actions timeline-filters">
+                <button id="timelineFilterAll" class="btn btn-ghost btn-small btn-toggle-active" type="button">All</button>
+                <button id="timelineFilterPending" class="btn btn-ghost btn-small" type="button">Pending</button>
+                <button id="timelineFilterCompleted" class="btn btn-ghost btn-small" type="button">Completed</button>
+              </div>
+            </div>
+            <div id="timelineList" class="timeline-list"></div>
+          </article>
         </div>
 
         <div class="stack">
@@ -104,10 +164,92 @@
 
           <article class="section-card">
             <div class="section-header">
+              <h3>Technical Progress</h3>
+              <span id="technicalDueChip" class="chip status-planned">No Baseline</span>
+            </div>
+
+            <div class="result-grid">
+              <article class="result-highlight">
+                <p class="text-muted">Current Readiness Check</p>
+                <h2 id="technicalTrackText">-</h2>
+                <p class="text-muted" style="margin-top: 0.4rem;">Level</p>
+                <h4 id="technicalLevelText">-</h4>
+                <p class="text-muted" style="margin-top: 0.7rem;">Current Score</p>
+                <h4 id="technicalScoreText">-</h4>
+                <p id="technicalImprovementText" class="text-muted" style="margin-top: 0.7rem;">Take your first technical readiness check to establish a baseline.</p>
+                <p id="technicalSummaryText" class="text-muted" style="margin-top: 0.7rem;">Readiness insights will appear here after your first submission.</p>
+
+                <div class="summary-list" style="margin-top: 0.85rem;">
+                  <div class="summary-item">
+                    <p>Last assessed</p>
+                    <strong id="technicalLastAssessedText">Not yet</strong>
+                  </div>
+                  <div class="summary-item">
+                    <p>Reassessment</p>
+                    <strong id="technicalReassessmentText">Baseline pending</strong>
+                  </div>
+                </div>
+
+                <div class="toolbar-actions" style="margin-top: 0.9rem;">
+                  <a id="technicalAssessmentBtn" class="btn btn-primary btn-small" href="./technical-readiness.html">Take Readiness Check</a>
+                </div>
+              </article>
+
+              <article class="result-card">
+                <div class="result-card-head">
+                  <h4>Skill Breakdown</h4>
+                  <span id="technicalHistoryCount" class="chip">0 checkpoints</span>
+                </div>
+                <div id="technicalSkillList" class="bars" style="margin-top: 0.6rem;"></div>
+              </article>
+            </div>
+
+            <article class="result-card" style="margin-top: 0.9rem;">
+              <div class="result-card-head">
+                <h4>Readiness History</h4>
+                <span class="text-muted">Last 8 attempts</span>
+              </div>
+              <div id="technicalHistoryList" class="bars" style="margin-top: 0.6rem;"></div>
+            </article>
+          </article>
+
+          <article class="section-card">
+            <div class="section-header">
               <h3>Goal Templates</h3>
               <span class="chip" id="careerPill">Career</span>
             </div>
             <div id="templateList" class="template-list"></div>
+          </article>
+
+          <article class="section-card">
+            <div class="section-header">
+              <h3>Next Best Action</h3>
+            </div>
+            <div id="nextBestActionPanel" class="next-action"></div>
+          </article>
+
+          <article class="section-card">
+            <div class="section-header">
+              <h3>Category Gap Warnings</h3>
+            </div>
+            <div id="gapWarningsList" class="warning-list"></div>
+          </article>
+
+          <article class="section-card">
+            <div class="section-header">
+              <h3>Due Soon Tasks</h3>
+              <span id="dueSoonBadge" class="chip">0</span>
+            </div>
+            <div id="dueSoonTasksList" class="due-task-list"></div>
+          </article>
+
+          <article class="section-card discovery-nudge">
+            <p class="eyebrow">Optional</p>
+            <h3>Keep Your Technical Baseline Current</h3>
+            <p id="discoveryNudgeText" class="text-muted">Take or retake the technical readiness check every 30 days to compare your improvement over time.</p>
+            <div class="toolbar-actions">
+              <a id="discoveryNudgeBtn" class="btn btn-ghost btn-small" href="./technical-readiness.html">Open Readiness Check</a>
+            </div>
           </article>
         </div>
       </section>
@@ -116,9 +258,10 @@
 
   <div id="toast" class="toast"></div>
 
-  <script src="../assets/js/config.js"></script>
-  <script src="../assets/js/ui.js"></script>
-  <script src="../assets/js/api.js"></script>
-  <script src="../assets/js/dashboard.js"></script>
+  <script src="../assets/js/core/config.js?v=20260325a"></script>
+  <script src="../assets/js/core/ui.js?v=20260325a"></script>
+  <script src="../assets/js/core/api.js?v=20260325a"></script>
+  <script src="../assets/js/core/auth-guard.js?v=20260325a"></script>
+  <script src="../assets/js/pages/dashboard.js?v=20260325a"></script>
 </body>
 </html>

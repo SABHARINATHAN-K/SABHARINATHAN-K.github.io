@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Technical Readiness Check - CareerPath</title>
+  <link rel="stylesheet" href="../assets/css/styles.css?v=20260325a" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="./home.html">
+        <span class="brand-mark">CP</span>
+        <span class="gradient-text">CareerPath</span>
+      </a>
+
+      <nav class="topnav">
+        <a class="nav-link" href="./home.html">Home</a>
+        <a class="nav-link" href="./dashboard.html">Dashboard</a>
+        <a class="nav-link" href="./goals.html">Goals</a>
+        <a class="nav-link" href="./analytics.html">Analytics</a>
+        <a class="nav-link" href="./profile.html">Profile</a>
+      </nav>
+
+      <button id="logoutBtn" class="btn btn-muted btn-small" type="button">Logout</button>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <div class="container">
+      <section class="hero-card">
+        <div>
+          <p class="eyebrow">Technical Readiness Check</p>
+          <h1>Measure role-specific technical readiness</h1>
+          <p class="text-muted">Choose a focused technical role, answer domain-specific MCQs, and use the result to confirm your plan and compare future improvement.</p>
+        </div>
+        <div class="toolbar-actions">
+          <span id="statusPill" class="chip status-planned">Ready</span>
+          <a class="btn btn-ghost" href="./dashboard.html">Back to Dashboard</a>
+        </div>
+      </section>
+
+      <section id="chooserSection" class="section-card">
+        <div class="section-header">
+          <h3>Choose how you want to continue</h3>
+        </div>
+
+        <div class="career-choice-grid">
+          <article class="choice-card">
+            <p class="eyebrow">Option 1</p>
+            <h3>Set role directly</h3>
+            <p>Select a technical role and continue directly to plan generation.</p>
+            <div class="form-group" style="margin-top: 0.75rem;">
+              <label for="manualTrackSelect">Technical Role</label>
+              <select id="manualTrackSelect"></select>
+            </div>
+            <div class="toolbar-actions">
+              <button id="manualConfirmBtn" class="btn btn-secondary" type="button">Confirm Role</button>
+              <button id="manualGenerateBtn" class="btn btn-primary" type="button">Generate Plan</button>
+            </div>
+          </article>
+
+          <article class="choice-card">
+            <p class="eyebrow">Option 2</p>
+            <h3>Run readiness check</h3>
+            <p>Open a role-specific MCQ set designed to evaluate actual domain understanding, not generic preferences.</p>
+            <div class="form-group" style="margin-top: 0.75rem;">
+              <label for="technicalRoleSelect">Role for Readiness Check</label>
+              <select id="technicalRoleSelect"></select>
+            </div>
+            <button id="loadBenchmarkBtn" class="btn btn-primary" type="button">Load Questions</button>
+          </article>
+        </div>
+      </section>
+
+      <section id="benchmarkSection" class="section-card hidden">
+        <div class="section-header">
+          <div>
+            <h3 id="benchmarkRoleLabel">Technical Readiness Check</h3>
+            <p id="benchmarkHint" class="text-muted">Role-specific questions will load here.</p>
+          </div>
+          <span id="questionCountText" class="chip">0 Questions</span>
+        </div>
+
+        <div id="benchmarkQuestionList" class="question-list"></div>
+
+        <div class="assessment-actions">
+          <button id="backToChooserBtn" class="btn btn-muted" type="button">Back</button>
+          <button id="submitBenchmarkBtn" class="btn btn-primary" type="button">Submit Readiness Check</button>
+        </div>
+      </section>
+
+      <section id="resultSection" class="section-card hidden">
+        <div class="section-header">
+          <h3>Readiness Result</h3>
+          <span id="levelChip" class="chip status-completed">Level</span>
+        </div>
+
+        <div class="result-grid">
+          <article class="result-highlight">
+            <p class="text-muted">Role</p>
+            <h2 id="benchmarkRoleText">-</h2>
+            <p class="text-muted" style="margin-top: 0.4rem;">Current Level</p>
+            <h4 id="benchmarkLevelText">-</h4>
+            <p class="text-muted" style="margin-top: 0.7rem;">Score</p>
+            <h4 id="benchmarkScoreText">-</h4>
+            <p id="benchmarkImprovementText" class="text-muted" style="margin-top: 0.7rem;">-</p>
+            <p id="benchmarkSummaryText" class="text-muted" style="margin-top: 0.7rem;">-</p>
+          </article>
+
+          <article class="result-card">
+            <div class="result-card-head">
+              <h4>Skill Area Breakdown</h4>
+            </div>
+            <div id="skillAreaList" class="bars" style="margin-top: 0.5rem;"></div>
+          </article>
+        </div>
+
+        <div class="form-row" style="margin-top: 0.9rem;">
+          <div class="form-group">
+            <label for="confirmTrackSelect">Final Technical Role</label>
+            <select id="confirmTrackSelect"></select>
+          </div>
+        </div>
+
+        <div class="assessment-actions">
+          <button id="confirmTrackBtn" class="btn btn-secondary" type="button">Accept Role</button>
+          <button id="generatePlanBtn" class="btn btn-primary" type="button">Generate Learning Plan</button>
+        </div>
+      </section>
+
+      <section id="nextFlowSection" class="section-card hidden">
+        <div class="section-header">
+          <h3>Next Step</h3>
+          <span class="chip status-completed">Ready</span>
+        </div>
+        <p id="nextFlowSummary" class="text-muted">Your readiness result has been saved and your learning plan is ready.</p>
+        <div class="toolbar-actions next-flow-actions">
+          <a class="btn btn-primary" href="./dashboard.html">Go to Dashboard</a>
+          <a class="btn btn-ghost" href="./goals.html">Open Goals Workspace</a>
+          <a class="btn btn-ghost" href="./analytics.html">View Analytics</a>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <div id="toast" class="toast"></div>
+
+  <script src="../assets/js/core/config.js?v=20260325a"></script>
+  <script src="../assets/js/core/ui.js?v=20260325a"></script>
+  <script src="../assets/js/core/api.js?v=20260325a"></script>
+  <script src="../assets/js/core/auth-guard.js?v=20260325a"></script>
+  <script src="../assets/js/pages/technical-readiness.js?v=20260325a"></script>
+</body>
+</html>

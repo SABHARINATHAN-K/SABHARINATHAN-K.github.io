@@ -4,17 +4,18 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Analytics - CareerPath</title>
-  <link rel="stylesheet" href="../assets/css/styles.css" />
+  <link rel="stylesheet" href="../assets/css/styles.css?v=20260325a" />
 </head>
 <body>
   <header class="topbar">
     <div class="topbar-inner">
-      <a class="brand" href="./dashboard.html">
+      <a class="brand" href="./home.html">
         <span class="brand-mark">CP</span>
         <span class="gradient-text">CareerPath</span>
       </a>
 
       <nav class="topnav">
+        <a class="nav-link" href="./home.html">Home</a>
         <a class="nav-link" href="./dashboard.html">Dashboard</a>
         <a class="nav-link" href="./goals.html">Goals</a>
         <a class="nav-link active" href="./analytics.html">Analytics</a>
@@ -30,7 +31,7 @@
       <section class="page-header">
         <div>
           <h1>Analytics Dashboard</h1>
-          <p>Comprehensive insights into your goal progress and achievements.</p>
+          <p>Goal execution plus technical readiness insights for your selected role.</p>
         </div>
       </section>
 
@@ -50,6 +51,22 @@
         <article class="metric-card">
           <p class="text-muted">Completion Rate</p>
           <p class="value" id="metricRate">0%</p>
+        </article>
+        <article class="metric-card">
+          <p class="text-muted">Technical Level</p>
+          <p class="value" id="metricTechnicalLevel">-</p>
+        </article>
+        <article class="metric-card">
+          <p class="text-muted">Technical Score</p>
+          <p class="value" id="metricTechnicalScore">-</p>
+        </article>
+        <article class="metric-card">
+          <p class="text-muted">Readiness Trend</p>
+          <p class="value" id="metricTechnicalTrend">-</p>
+        </article>
+        <article class="metric-card">
+          <p class="text-muted">Checkpoints</p>
+          <p class="value" id="metricTechnicalHistory">0</p>
         </article>
       </section>
 
@@ -98,17 +115,57 @@
             </div>
           </div>
         </article>
+
+        <article class="chart-card">
+          <h3>Technical Snapshot</h3>
+          <div class="summary-list">
+            <div class="summary-item" style="border-left-color:#0284c7">
+              <p>Current Role</p>
+              <strong id="technicalTrackText">-</strong>
+            </div>
+            <div class="summary-item" style="border-left-color:#22c55e">
+              <p>Last Assessed</p>
+              <strong id="technicalLastAssessedText">Not yet</strong>
+            </div>
+            <div class="summary-item" style="border-left-color:#f59e0b">
+              <p>Reassessment</p>
+              <strong id="technicalReassessmentText">Baseline pending</strong>
+            </div>
+            <div class="summary-item" style="border-left-color:#7c3aed">
+              <p>Status</p>
+              <strong id="technicalStatusText">No baseline</strong>
+            </div>
+          </div>
+        </article>
+
+        <article class="chart-card">
+          <h3>Technical Skill Breakdown</h3>
+          <div id="technicalSkillBars" class="bars" style="margin-top: 0.7rem;"></div>
+        </article>
+
+        <article class="chart-card">
+          <h3>Readiness History</h3>
+          <div id="technicalHistoryBars" class="bars" style="margin-top: 0.7rem;"></div>
+        </article>
+
+        <article class="chart-card discovery-nudge-panel">
+          <h3>Technical Guidance</h3>
+          <p id="technicalSummaryText" class="text-muted">Take your first technical readiness check to establish a baseline for this analytics view.</p>
+          <div class="toolbar-actions" style="margin-top:0.85rem;">
+            <a id="technicalAnalyticsAction" class="btn btn-ghost btn-small" href="./technical-readiness.html">Open Readiness Check</a>
+          </div>
+        </article>
       </section>
 
-      <pre id="messageBox" class="message">Ready.</pre>
     </div>
   </main>
 
   <div id="toast" class="toast"></div>
 
-  <script src="../assets/js/config.js"></script>
-  <script src="../assets/js/ui.js"></script>
-  <script src="../assets/js/api.js"></script>
-  <script src="../assets/js/analytics.js"></script>
+  <script src="../assets/js/core/config.js?v=20260325a"></script>
+  <script src="../assets/js/core/ui.js?v=20260325a"></script>
+  <script src="../assets/js/core/api.js?v=20260325a"></script>
+  <script src="../assets/js/core/auth-guard.js?v=20260325a"></script>
+  <script src="../assets/js/pages/analytics.js?v=20260325a"></script>
 </body>
 </html>

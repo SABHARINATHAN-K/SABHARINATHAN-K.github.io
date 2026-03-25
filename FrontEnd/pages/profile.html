@@ -4,17 +4,18 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Profile - CareerPath</title>
-  <link rel="stylesheet" href="../assets/css/styles.css" />
+  <link rel="stylesheet" href="../assets/css/styles.css?v=20260325a" />
 </head>
 <body>
   <header class="topbar">
     <div class="topbar-inner">
-      <a class="brand" href="./dashboard.html">
+      <a class="brand" href="./home.html">
         <span class="brand-mark">CP</span>
         <span class="gradient-text">CareerPath</span>
       </a>
 
       <nav class="topnav">
+        <a class="nav-link" href="./home.html">Home</a>
         <a class="nav-link" href="./dashboard.html">Dashboard</a>
         <a class="nav-link" href="./goals.html">Goals</a>
         <a class="nav-link" href="./analytics.html">Analytics</a>
@@ -91,15 +92,15 @@
         </section>
       </section>
 
-      <pre id="messageBox" class="message">Ready.</pre>
     </div>
   </main>
 
   <div id="toast" class="toast"></div>
 
-  <script src="../assets/js/config.js"></script>
-  <script src="../assets/js/ui.js"></script>
-  <script src="../assets/js/api.js"></script>
-  <script src="../assets/js/profile.js"></script>
+  <script src="../assets/js/core/config.js?v=20260325a"></script>
+  <script src="../assets/js/core/ui.js?v=20260325a"></script>
+  <script src="../assets/js/core/api.js?v=20260325a"></script>
+  <script src="../assets/js/core/auth-guard.js?v=20260325a"></script>
+  <script src="../assets/js/pages/profile.js?v=20260325a"></script>
 </body>
 </html>

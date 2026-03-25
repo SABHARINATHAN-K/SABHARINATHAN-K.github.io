@@ -4,16 +4,19 @@ Career Planning System is a full-stack web application to help learners define, 
 
 ## Tech Stack
 - Frontend: HTML, CSS, Vanilla JavaScript (multi-page UI)
-- Backend: Java 21, Spring Boot 3, Spring Data JPA, Flyway
+- Backend: Java 21, Spring Boot 3.4.2, Spring Data JPA, Flyway
 - Database: MySQL 8
 - Tooling: Maven, Bash scripts, Git/GitHub workflow
 
 ## Repository Structure
 ```text
 CAREER PLANNING/
-├── BackEnd/          # Spring Boot REST API
-├── FrontEnd/         # Static client (HTML/CSS/JS)
-├── docs/             # Architecture and frontend reference docs
+├── BackEnd/          # Spring Boot REST API (source, tests, migrations)
+├── FrontEnd/         # Static client (pages, CSS, JS)
+├── scripts/          # Unified project scripts
+├── docs/             # Architecture and references
+├── dev.sh            # Backward-compatible launcher -> scripts/dev.sh
+├── Makefile          # Shortcut commands (make up/down/status/logs)
 └── README.md
 ```
 
@@ -23,31 +26,64 @@ CAREER PLANNING/
 - MySQL 8+
 - Python 3 (for local static frontend server)
 
-## Installation & Run Steps
-1. Clone the repository and move into project root:
+## Quick Start
+1. Move into project root:
 ```bash
-cd "/home/sabhari/VS/CAREER PLANNING/CAREER PLANNING"
+cd "/home/sabhari/VS/CAREER PLANNING/CAREER PLANNING SYSTEM"
 ```
 
-2. Configure backend environment:
+2. Configure ports and DB credentials once:
 ```bash
-cd BackEnd
-cp .env.example .env
+cp .dev.env.example .dev.env
 ```
-Edit `.env` values if required (`DB_URL`, `DB_USERNAME`, `DB_PASSWORD`, `PORT`).
 
-3. Start backend:
+3. Start both backend and frontend together:
 ```bash
-./run.sh
+./dev.sh up
 ```
-Backend URL: `http://localhost:8080/api/v1`
 
-4. Start frontend in another terminal:
+4. Open the app:
+- Frontend: `http://localhost:5500`
+- Backend API: `http://localhost:8081/api/v1`
+
+You only need to open the frontend URL in your browser for normal use.
+
+## Daily Commands
 ```bash
-cd "/home/sabhari/VS/CAREER PLANNING/CAREER PLANNING/FrontEnd"
-./run.sh
+./dev.sh status   # check both services + URLs
+./dev.sh logs     # follow backend + frontend logs
+./dev.sh down     # stop both services
+./dev.sh restart  # restart both services
 ```
-Frontend URL: `http://localhost:5500`
+
+## Google Sign-In Setup
+Google sign-in is available at `POST /api/v1/auth/google` and the login page.
+
+1. Create a Google OAuth Client ID (Web application) in Google Cloud Console.
+2. Add backend config in `.dev.env`:
+```bash
+GOOGLE_AUTH_CLIENT_ID=your_google_web_client_id.apps.googleusercontent.com
+```
+3. Set frontend client ID once in browser console (for local static frontend):
+```js
+localStorage.setItem("career_planning_google_client_id", "your_google_web_client_id.apps.googleusercontent.com");
+```
+4. Restart services and hard refresh login page:
+```bash
+./dev.sh restart
+```
+Open `http://localhost:5500/pages/login.html` and use `Sign in with Google`.
+
+Optional `make` shortcuts:
+```bash
+make up
+make status
+make down
+```
+
+## Legacy Per-Service Run (Optional)
+- Backend only: `./scripts/backend.sh`
+- Frontend only: `./scripts/frontend.sh`
 
 ## Core API Endpoints
 - `POST /api/v1/auth/register`
@@ -75,3 +111,4 @@ Suggested workflow:
 ## Documentation
 - `docs/ARCHITECTURE.md`
 - `docs/FRONTEND_REFERENCE.md`
+- `docs/PROJECT_STRUCTURE.md`

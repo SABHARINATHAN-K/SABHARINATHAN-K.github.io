@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Student Detail - CareerPath Admin</title>
+  <link rel="stylesheet" href="../assets/css/styles.css?v=20260325a" />
+</head>
+<body>
+  <header class="topbar admin-topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="./admin.html">
+        <span class="brand-mark">CP</span>
+        <span class="gradient-text">CareerPath Admin</span>
+      </a>
+
+      <nav class="topnav">
+        <a class="nav-link" href="./admin.html">Admin Dashboard</a>
+        <a class="nav-link active" href="#">Student Detail</a>
+      </nav>
+
+      <div class="user-chip">
+        <div class="user-avatar" id="adminInitial">A</div>
+        <div class="meta">
+          <strong id="adminName">Admin</strong>
+          <span id="adminEmail">-</span>
+        </div>
+        <button id="logoutBtn" class="btn btn-muted btn-small" type="button">Logout</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <div class="container">
+      <section class="hero-card admin-hero-card">
+        <div>
+          <p class="eyebrow">Learner Detail</p>
+          <h1 id="studentNameHeading">Loading student...</h1>
+          <p id="studentHeroText" class="text-muted">Open profile, readiness progress, and plan details for this learner.</p>
+        </div>
+        <div class="toolbar-actions">
+          <a class="btn btn-ghost" href="./admin.html">Back to Admin</a>
+        </div>
+      </section>
+
+      <section class="stat-grid admin-stat-grid">
+        <article class="stat-card">
+          <p class="label">Goals</p>
+          <p class="value" id="studentGoalCount">0</p>
+        </article>
+        <article class="stat-card">
+          <p class="label">Completed Goals</p>
+          <p class="value" id="studentCompletedGoalCount">0</p>
+        </article>
+        <article class="stat-card">
+          <p class="label">Tasks</p>
+          <p class="value" id="studentTaskCount">0</p>
+        </article>
+        <article class="stat-card">
+          <p class="label">Completed Tasks</p>
+          <p class="value" id="studentCompletedTaskCount">0</p>
+        </article>
+        <article class="stat-card">
+          <p class="label">Readiness Level</p>
+          <p class="value" id="studentLevelMetric">-</p>
+        </article>
+        <article class="stat-card">
+          <p class="label">Readiness Score</p>
+          <p class="value" id="studentScoreMetric">-</p>
+        </article>
+      </section>
+
+      <section class="admin-grid">
+        <article class="section-card">
+          <div class="section-header">
+            <h3>Student Profile</h3>
+            <span id="studentOnboardingChip" class="chip status-planned">Setup pending</span>
+          </div>
+
+          <form id="studentProfileForm" class="form">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="studentFullName">Full Name</label>
+                <input id="studentFullName" type="text" required />
+              </div>
+              <div class="form-group">
+                <label for="studentEmail">Email</label>
+                <input id="studentEmail" type="email" required />
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="studentRole">Role</label>
+                <select id="studentRole"></select>
+              </div>
+              <div class="form-group">
+                <label for="studentCareerTrack">Career Track</label>
+                <select id="studentCareerTrack"></select>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="studentLocation">Location</label>
+                <input id="studentLocation" type="text" />
+              </div>
+              <div class="form-group admin-checkbox-field">
+                <label for="studentOnboardingCompleted">Setup State</label>
+                <label class="option-item">
+                  <input id="studentOnboardingCompleted" type="checkbox" />
+                  <span>Technical setup completed</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="studentBio">Bio</label>
+              <textarea id="studentBio"></textarea>
+            </div>
+
+            <div class="toolbar-actions">
+              <button id="saveStudentBtn" class="btn btn-primary" type="submit">Save Student</button>
+            </div>
+          </form>
+        </article>
+
+        <article class="section-card">
+          <div class="section-header">
+            <div>
+              <h3>Technical Readiness</h3>
+              <p id="studentReadinessSummary" class="text-muted">No readiness result recorded yet.</p>
+            </div>
+            <span id="studentReadinessChip" class="chip status-planned">No baseline</span>
+          </div>
+
+          <div class="result-grid">
+            <article class="result-highlight">
+              <p class="text-muted">Current Role</p>
+              <h2 id="studentReadinessTrack">-</h2>
+              <p class="text-muted" style="margin-top: 0.4rem;">Last assessed</p>
+              <h4 id="studentLastAssessed">Not yet</h4>
+              <p class="text-muted" style="margin-top: 0.7rem;">Reassessment</p>
+              <h4 id="studentReassessment">Baseline pending</h4>
+              <p id="studentImprovementText" class="text-muted" style="margin-top: 0.7rem;">No comparison available yet.</p>
+            </article>
+
+            <article class="result-card">
+              <div class="result-card-head">
+                <h4>Skill Breakdown</h4>
+                <span id="studentHistoryCount" class="chip">0 checkpoints</span>
+              </div>
+              <div id="studentSkillBars" class="bars" style="margin-top: 0.6rem;"></div>
+            </article>
+          </div>
+
+          <article class="result-card" style="margin-top: 0.9rem;">
+            <div class="result-card-head">
+              <h4>Readiness History</h4>
+            </div>
+            <div id="studentHistoryBars" class="bars" style="margin-top: 0.6rem;"></div>
+          </article>
+        </article>
+      </section>
+
+      <section class="section-card">
+        <div class="section-header">
+          <h3>Career Plan and Goals</h3>
+          <span id="studentPlanSummary" class="chip">0 items</span>
+        </div>
+        <div id="studentGoalsList" class="admin-goal-list"></div>
+      </section>
+    </div>
+  </main>
+
+  <div id="toast" class="toast"></div>
+
+  <script src="../assets/js/core/config.js?v=20260325a"></script>
+  <script src="../assets/js/core/ui.js?v=20260325a"></script>
+  <script src="../assets/js/core/api.js?v=20260325a"></script>
+  <script src="../assets/js/core/auth-guard.js?v=20260325a"></script>
+  <script src="../assets/js/pages/admin-user.js?v=20260325a"></script>
+</body>
+</html>

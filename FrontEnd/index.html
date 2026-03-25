@@ -3,60 +3,59 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CareerPath - Plan Your Career</title>
-  <link rel="stylesheet" href="./assets/css/styles.css" />
+  <title>CareerPath - Choose Your Portal</title>
+  <link rel="stylesheet" href="./assets/css/styles.css?v=20260325a" />
 </head>
 <body>
-  <main class="page landing-wrap">
+  <main class="page landing-wrap portal-start-page">
     <div class="container">
-      <section class="hero-panel">
-        <div class="hero-content">
-          <span class="badge"><span class="dot"></span>Career Planning Made Simple</span>
-          <h1><span class="gradient-text">Plan Your Career</span><br />Track Your Progress</h1>
+      <section class="hero-panel portal-hero-panel">
+        <div class="portal-hero-copy">
+          <span class="badge"><span class="dot"></span>Technical Career Planning Platform</span>
+          <h1>Choose the workspace<br />you want to enter.</h1>
           <p>
-            A role-aware career planning platform with intelligent templates, goal analytics,
-            and focused execution tools for your growth journey.
+            Learners take a role-specific technical readiness check and follow their plan over time.
+            Admins manage student plans, review progress, and maintain the domain question bank.
           </p>
-          <div class="hero-actions">
-            <a class="btn btn-primary" href="./pages/register.html">Get Started Free</a>
-            <a class="btn btn-ghost" href="./pages/login.html">Sign In</a>
-          </div>
-
-          <div class="feature-grid">
-            <article class="feature-card">
-              <h3>Goal Tracking</h3>
-              <p>Set, monitor, and complete career goals with clarity.</p>
-            </article>
-            <article class="feature-card">
-              <h3>Progress Analytics</h3>
-              <p>Measure completion trends and focus on results.</p>
-            </article>
-            <article class="feature-card">
-              <h3>Role-Based Journey</h3>
-              <p>Get templates and flows matched to your track.</p>
-            </article>
-          </div>
         </div>
-      </section>
 
-      <section class="stats-banner">
-        <h2>Built for Consistent Career Growth</h2>
-        <div class="stats-grid">
-          <div>
-            <strong>10K+</strong>
-            <span>Active planners</span>
-          </div>
-          <div>
-            <strong>50K+</strong>
-            <span>Goals completed</span>
-          </div>
-          <div>
-            <strong>85%</strong>
-            <span>Avg completion rate</span>
-          </div>
+        <div class="portal-grid">
+          <article class="portal-card portal-card-user">
+            <p class="eyebrow">Learner Portal</p>
+            <h2>Students and professionals</h2>
+            <p>Sign in to take the technical readiness check, generate your learning plan, and track progress.</p>
+            <ul class="portal-list">
+              <li>Role-based technical questions</li>
+              <li>Progress tracking and score history</li>
+              <li>Roadmap goals and task execution</li>
+            </ul>
+            <div class="portal-actions">
+              <a class="btn btn-primary" href="./pages/login.html?portal=user">Sign In as Learner</a>
+              <a class="btn btn-ghost" href="./pages/register.html">Create Learner Account</a>
+            </div>
+          </article>
+
+          <article class="portal-card portal-card-admin">
+            <p class="eyebrow">Admin Portal</p>
+            <h2>Career platform control room</h2>
+            <p>Review every student plan, open detailed progress, and edit the technical question bank by domain.</p>
+            <ul class="portal-list">
+              <li>Student list and individual progress view</li>
+              <li>Question-bank create, edit, and delete</li>
+              <li>Career-path oversight for all users</li>
+            </ul>
+            <div class="portal-actions">
+              <a class="btn btn-secondary" href="./pages/login.html?portal=admin">Sign In as Admin</a>
+            </div>
+          </article>
         </div>
       </section>
     </div>
   </main>
+
+  <script src="./assets/js/core/config.js?v=20260325a"></script>
+  <script src="./assets/js/core/api.js?v=20260325a"></script>
+  <script src="./assets/js/core/auth-guard.js?v=20260325a"></script>
+  <script src="./assets/js/pages/index.js?v=20260325a"></script>
 </body>
 </html>

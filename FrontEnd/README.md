@@ -2,20 +2,27 @@
 
 Multipage HTML/CSS/JS client for Career Planning.
 
-## Run
+## Run (Frontend Only)
 ```bash
-cd "/home/sabhari/VS/CAREER PLANNING/CAREER PLANNING SYSTEM/FrontEnd"
-./run.sh
+cd "/home/sabhari/VS/CAREER PLANNING/CAREER PLANNING SYSTEM"
+./scripts/frontend.sh
 ```
 
 Open:
 - http://localhost:5500
+
+Recommended for daily development (backend + frontend together):
+```bash
+cd "/home/sabhari/VS/CAREER PLANNING/CAREER PLANNING SYSTEM"
+./dev.sh up
+```
 
 ## Pages
 - `index.html` - landing page
 - `pages/register.html`
 - `pages/login.html`
 - `pages/dashboard.html`
+- `pages/career-discovery.html`
 - `pages/goals.html`
 - `pages/goal-detail.html?id={goalId}`
 - `pages/profile.html`
@@ -32,7 +39,8 @@ Open:
 
 ## Structure
 - `assets/css/styles.css` - global styling and page components
-- `assets/js/config.js` - API base URL
-- `assets/js/ui.js` - UI helper utilities
-- `assets/js/api.js` - API and token utilities
-- `assets/js/*.js` - page-specific logic
+- `assets/js/core/config.js` - API base URL
+- `assets/js/core/ui.js` - UI helper utilities
+- `assets/js/core/api.js` - API and token utilities
+- `assets/js/core/auth-guard.js` - route protection redirects
+- `assets/js/pages/*.js` - page-specific logic

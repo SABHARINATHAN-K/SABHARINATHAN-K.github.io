@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public enum UserRole {
+    ADMIN,
     STUDENT,
     PROFESSIONAL,
     MANAGER,
@@ -19,7 +20,21 @@ public enum UserRole {
         return Arrays.stream(values()).anyMatch(role -> role.name().equals(value));
     }
 
+    public static boolean isSelfServiceRole(String value) {
+        if (!isValid(value)) {
+            return false;
+        }
+        return !ADMIN.name().equals(value);
+    }
+
     public static List<String> options() {
         return Arrays.stream(values()).map(Enum::name).toList();
+    }
+
+    public static List<String> selfServiceOptions() {
+        return Arrays.stream(values())
+                .filter(role -> role != ADMIN)
+                .map(Enum::name)
+                .toList();
     }
 }

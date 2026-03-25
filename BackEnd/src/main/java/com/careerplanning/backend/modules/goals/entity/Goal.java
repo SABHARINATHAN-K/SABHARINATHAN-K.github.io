@@ -52,6 +52,17 @@ public class Goal {
     @Column(name = "tag", nullable = false)
     private List<String> tags = new ArrayList<>();
 
+    @Column(name = "is_blueprint_goal", nullable = false)
+    private boolean blueprintGoal = false;
+
+    private Long blueprintTemplateId;
+
+    private Integer blueprintPhaseOrder;
+
+    private Integer blueprintDefaultOrder;
+
+    private String blueprintPhaseTitle;
+
     @Column(nullable = false)
     private Instant createdAt = Instant.now();
 
@@ -153,6 +164,46 @@ public class Goal {
 
     public void setTags(List<String> tags) {
         this.tags = tags;
+    }
+
+    public boolean isBlueprintGoal() {
+        return blueprintGoal;
+    }
+
+    public void setBlueprintGoal(boolean blueprintGoal) {
+        this.blueprintGoal = blueprintGoal;
+    }
+
+    public Long getBlueprintTemplateId() {
+        return blueprintTemplateId;
+    }
+
+    public void setBlueprintTemplateId(Long blueprintTemplateId) {
+        this.blueprintTemplateId = blueprintTemplateId;
+    }
+
+    public Integer getBlueprintPhaseOrder() {
+        return blueprintPhaseOrder;
+    }
+
+    public void setBlueprintPhaseOrder(Integer blueprintPhaseOrder) {
+        this.blueprintPhaseOrder = blueprintPhaseOrder;
+    }
+
+    public Integer getBlueprintDefaultOrder() {
+        return blueprintDefaultOrder;
+    }
+
+    public void setBlueprintDefaultOrder(Integer blueprintDefaultOrder) {
+        this.blueprintDefaultOrder = blueprintDefaultOrder;
+    }
+
+    public String getBlueprintPhaseTitle() {
+        return blueprintPhaseTitle;
+    }
+
+    public void setBlueprintPhaseTitle(String blueprintPhaseTitle) {
+        this.blueprintPhaseTitle = blueprintPhaseTitle;
     }
 
     public Instant getCreatedAt() {

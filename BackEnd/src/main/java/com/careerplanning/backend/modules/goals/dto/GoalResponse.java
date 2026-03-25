@@ -19,8 +19,14 @@ public record GoalResponse(
         LocalDate targetDate,
         Instant completedDate,
         Integer progress,
+        List<GoalTaskResponse> tasks,
         String notes,
         List<String> tags,
+        boolean isBlueprintGoal,
+        Long blueprintTemplateId,
+        Integer blueprintPhaseOrder,
+        Integer blueprintDefaultOrder,
+        String blueprintPhaseTitle,
         Instant createdAt,
         Instant updatedAt
 ) {

@@ -9,4 +9,6 @@ import java.util.Optional;
 public interface GoalRepository extends JpaRepository<Goal, Long> {
     List<Goal> findByUserIdOrderByCreatedAtDesc(Long userId);
     Optional<Goal> findByIdAndUserId(Long id, Long userId);
+    List<Goal> findByUserIdAndBlueprintGoalTrue(Long userId);
+    boolean existsByUserIdAndBlueprintTemplateId(Long userId, Long blueprintTemplateId);
 }

@@ -8,6 +8,7 @@ public record UserProfileResponse(
         String email,
         String role,
         String careerTrack,
+        boolean onboardingCompleted,
         String bio,
         String location,
         Instant joinedDate

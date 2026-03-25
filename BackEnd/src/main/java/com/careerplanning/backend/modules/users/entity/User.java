@@ -33,6 +33,9 @@ public class User {
     @Column(nullable = false)
     private String careerTrack = CareerTrack.FULL_STACK_DEVELOPER.name();
 
+    @Column(nullable = false)
+    private boolean onboardingCompleted = false;
+
     @Column(length = 2000)
     private String bio;
 
@@ -91,6 +94,14 @@ public class User {
 
     public void setCareerTrack(String careerTrack) {
         this.careerTrack = careerTrack;
+    }
+
+    public boolean isOnboardingCompleted() {
+        return onboardingCompleted;
+    }
+
+    public void setOnboardingCompleted(boolean onboardingCompleted) {
+        this.onboardingCompleted = onboardingCompleted;
     }
 
     public String getBio() {

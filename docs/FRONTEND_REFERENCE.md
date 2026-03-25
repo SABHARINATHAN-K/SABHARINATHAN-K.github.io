@@ -7,7 +7,7 @@ This document contains the complete frontend source (HTML, CSS, JS) and concise 
 - Entry page: `FrontEnd/index.html`
 - Styling: `FrontEnd/assets/css/styles.css`
 - Logic: `FrontEnd/assets/js/*.js`
-- API integration: `X-Auth-Token` header via `FrontEnd/assets/js/api.js`
+- API integration: `X-Auth-Token` header via `FrontEnd/assets/js/core/api.js`
 
 ## User Flow Summary
 1. `index.html` -> user chooses Register/Login.
@@ -86,10 +86,10 @@ Login form page for existing users.
     </section>
   </main>
 
-  <script src="../assets/js/config.js"></script>
-  <script src="../assets/js/ui.js"></script>
-  <script src="../assets/js/api.js"></script>
-  <script src="../assets/js/login.js"></script>
+  <script src="../assets/js/core/config.js"></script>
+  <script src="../assets/js/core/ui.js"></script>
+  <script src="../assets/js/core/api.js"></script>
+  <script src="../assets/js/pages/login.js"></script>
 </body>
 </html>
 
@@ -146,10 +146,10 @@ Registration page with role and career-track onboarding fields.
     </section>
   </main>
 
-  <script src="../assets/js/config.js"></script>
-  <script src="../assets/js/ui.js"></script>
-  <script src="../assets/js/api.js"></script>
-  <script src="../assets/js/register.js"></script>
+  <script src="../assets/js/core/config.js"></script>
+  <script src="../assets/js/core/ui.js"></script>
+  <script src="../assets/js/core/api.js"></script>
+  <script src="../assets/js/pages/register.js"></script>
 </body>
 </html>
 
@@ -242,10 +242,10 @@ Dashboard layout showing profile, stats, and recommended templates.
 
   <div id="toast" class="toast"></div>
 
-  <script src="../assets/js/config.js"></script>
-  <script src="../assets/js/ui.js"></script>
-  <script src="../assets/js/api.js"></script>
-  <script src="../assets/js/dashboard.js"></script>
+  <script src="../assets/js/core/config.js"></script>
+  <script src="../assets/js/core/ui.js"></script>
+  <script src="../assets/js/core/api.js"></script>
+  <script src="../assets/js/pages/dashboard.js"></script>
 </body>
 </html>
 
@@ -366,10 +366,10 @@ Goals workspace for CRUD operations and goal filtering.
 
   <div id="toast" class="toast"></div>
 
-  <script src="../assets/js/config.js"></script>
-  <script src="../assets/js/ui.js"></script>
-  <script src="../assets/js/api.js"></script>
-  <script src="../assets/js/goals.js"></script>
+  <script src="../assets/js/core/config.js"></script>
+  <script src="../assets/js/core/ui.js"></script>
+  <script src="../assets/js/core/api.js"></script>
+  <script src="../assets/js/pages/goals.js"></script>
 </body>
 </html>
 
@@ -836,7 +836,7 @@ td {
 
 ```
 
-### `FrontEnd/assets/js/config.js`
+### `FrontEnd/assets/js/core/config.js`
 
 Application config for backend base URL.
 
@@ -847,7 +847,7 @@ window.APP_CONFIG = {
 
 ```
 
-### `FrontEnd/assets/js/ui.js`
+### `FrontEnd/assets/js/core/ui.js`
 
 Shared UI helpers for messages, loading states, humanized labels, and toast.
 
@@ -906,7 +906,7 @@ Shared UI helpers for messages, loading states, humanized labels, and toast.
 
 ```
 
-### `FrontEnd/assets/js/api.js`
+### `FrontEnd/assets/js/core/api.js`
 
 HTTP client wrapper, token storage, and lookup APIs.
 
@@ -1002,7 +1002,7 @@ HTTP client wrapper, token storage, and lookup APIs.
 
 ```
 
-### `FrontEnd/assets/js/login.js`
+### `FrontEnd/assets/js/pages/login.js`
 
 Login flow: form submit, authentication request, token handling, redirect.
 
@@ -1045,7 +1045,7 @@ loginForm.addEventListener("submit", async (event) => {
 
 ```
 
-### `FrontEnd/assets/js/register.js`
+### `FrontEnd/assets/js/pages/register.js`
 
 Registration flow with dynamic role/track options from backend lookups.
 
@@ -1115,7 +1115,7 @@ registerForm.addEventListener("submit", async (event) => {
 
 ```
 
-### `FrontEnd/assets/js/dashboard.js`
+### `FrontEnd/assets/js/pages/dashboard.js`
 
 Dashboard data loading, stat calculation, template actions, and logout.
 
@@ -1220,7 +1220,7 @@ function escapeAttr(value) {
 
 ```
 
-### `FrontEnd/assets/js/goals.js`
+### `FrontEnd/assets/js/pages/goals.js`
 
 Goal CRUD, template apply, search/filter, table rendering, edit/delete actions.
 

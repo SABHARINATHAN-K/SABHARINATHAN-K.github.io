@@ -16,10 +16,16 @@ Java Spring Boot REST API for Career Planning.
 - `src/main/java/com/careerplanning/backend/config/WebConfig.java` - CORS for frontend
 - `src/main/resources/db/migration` - DB migration SQL
 
-## Run
+## Run (Backend Only)
 ```bash
-cd "/home/sabhari/VS/CAREER PLANNING/CAREER PLANNING/BackEnd"
-./run.sh
+cd "/home/sabhari/VS/CAREER PLANNING/CAREER PLANNING SYSTEM"
+./scripts/backend.sh
+```
+
+Recommended for daily development:
+```bash
+cd "/home/sabhari/VS/CAREER PLANNING/CAREER PLANNING SYSTEM"
+./dev.sh up
 ```
 
 ## Environment
@@ -37,7 +43,7 @@ Then your configured DB credentials are incorrect for your local MySQL.
 Fix:
 1. Ensure MySQL is running.
 2. Create/update `BackEnd/.env` with valid credentials.
-3. Re-run `./run.sh`.
+3. Re-run `./scripts/backend.sh` from project root.
 
 Example:
 ```bash
@@ -54,7 +60,7 @@ DB_PASSWORD=<your_mysql_password>
 ```
 
 ## API Base URL
-- `http://localhost:8080/api/v1`
+- `http://localhost:8081/api/v1` (default)
 
 ## Endpoints
 - `POST /auth/register`

@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Portal - CareerPath</title>
+  <link rel="stylesheet" href="../assets/css/styles.css?v=20260325a" />
+</head>
+<body>
+  <header class="topbar admin-topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="./admin.html">
+        <span class="brand-mark">CP</span>
+        <span class="gradient-text">CareerPath Admin</span>
+      </a>
+
+      <nav class="topnav">
+        <a class="nav-link active" href="./admin.html">Admin Dashboard</a>
+        <a class="nav-link" href="#questionBankSection">Question Bank</a>
+      </nav>
+
+      <div class="user-chip">
+        <div class="user-avatar" id="adminInitial">A</div>
+        <div class="meta">
+          <strong id="adminName">Admin</strong>
+          <span id="adminEmail">-</span>
+        </div>
+        <button id="logoutBtn" class="btn btn-muted btn-small" type="button">Logout</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <div class="container">
+      <section class="hero-card admin-hero-card">
+        <div>
+          <p class="eyebrow">Admin Portal</p>
+          <h1>Manage learners, plans, and technical question quality</h1>
+          <p class="text-muted">Open any learner to review their plan and progress. Maintain the role-specific question bank from the same workspace.</p>
+        </div>
+        <div class="toolbar-actions">
+          <span class="chip status-completed">Admin Access</span>
+          <a class="btn btn-ghost" href="../index.html">Portal Selection</a>
+        </div>
+      </section>
+
+      <section class="stat-grid admin-stat-grid">
+        <article class="stat-card">
+          <p class="label">Total Users</p>
+          <p class="value" id="adminTotalUsers">0</p>
+        </article>
+        <article class="stat-card">
+          <p class="label">Learners</p>
+          <p class="value" id="adminLearnerCount">0</p>
+        </article>
+        <article class="stat-card">
+          <p class="label">Admins</p>
+          <p class="value" id="adminAdminCount">0</p>
+        </article>
+        <article class="stat-card">
+          <p class="label">Plans</p>
+          <p class="value" id="adminGoalCount">0</p>
+        </article>
+        <article class="stat-card">
+          <p class="label">Tasks</p>
+          <p class="value" id="adminTaskCount">0</p>
+        </article>
+        <article class="stat-card">
+          <p class="label">Completed Tasks</p>
+          <p class="value" id="adminCompletedTaskCount">0</p>
+        </article>
+      </section>
+
+      <section class="admin-grid">
+        <article class="section-card">
+          <div class="section-header">
+            <div>
+              <h3>Students and Users</h3>
+              <p class="text-muted">Click a user to open their full plan and progress view.</p>
+            </div>
+            <div class="form-group admin-search-group">
+              <label for="adminUserSearch">Search</label>
+              <input id="adminUserSearch" type="text" placeholder="Search by name, email, or role" />
+            </div>
+          </div>
+          <div id="adminUserList" class="admin-user-list"></div>
+        </article>
+
+        <article id="questionBankSection" class="section-card">
+          <div class="section-header">
+            <div>
+              <h3>Technical Question Bank</h3>
+              <p class="text-muted">Edit the role-specific questions learners receive in the readiness check.</p>
+            </div>
+            <div class="toolbar-actions">
+              <div class="form-group admin-inline-field">
+                <label for="questionTrackSelect">Technical Role</label>
+                <select id="questionTrackSelect"></select>
+              </div>
+              <button id="newQuestionBtn" class="btn btn-secondary btn-small" type="button">New Question</button>
+            </div>
+          </div>
+
+          <form id="questionForm" class="form admin-question-form">
+            <input id="questionId" type="hidden" />
+            <div class="form-row">
+              <div class="form-group">
+                <label for="questionCareerTrack">Role</label>
+                <select id="questionCareerTrack"></select>
+              </div>
+              <div class="form-group">
+                <label for="questionDifficulty">Difficulty</label>
+                <select id="questionDifficulty">
+                  <option value="FOUNDATION">Foundation</option>
+                  <option value="APPLIED">Applied</option>
+                  <option value="ARCHITECTURE">Architecture</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="questionDisplayOrder">Display Order</label>
+                <input id="questionDisplayOrder" type="number" min="1" required />
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="questionSkillArea">Skill Area</label>
+                <input id="questionSkillArea" type="text" placeholder="API Design" required />
+              </div>
+              <div class="form-group admin-checkbox-field">
+                <label for="questionActive">Visibility</label>
+                <label class="option-item">
+                  <input id="questionActive" type="checkbox" checked />
+                  <span>Active for learners</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="questionText">Question</label>
+              <textarea id="questionText" maxlength="2000" placeholder="Write a domain-specific question" required></textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="questionExplanation">Explanation (optional)</label>
+              <textarea id="questionExplanation" maxlength="2000" placeholder="Internal explanation for admins"></textarea>
+            </div>
+
+            <div class="admin-option-grid">
+              <div class="form-group">
+                <label for="option1">Option 1</label>
+                <input id="option1" type="text" required />
+                <label class="option-item admin-correct-toggle"><input id="correct1" type="radio" name="correctOption" value="0" checked /><span>Correct answer</span></label>
+              </div>
+              <div class="form-group">
+                <label for="option2">Option 2</label>
+                <input id="option2" type="text" required />
+                <label class="option-item admin-correct-toggle"><input id="correct2" type="radio" name="correctOption" value="1" /><span>Correct answer</span></label>
+              </div>
+              <div class="form-group">
+                <label for="option3">Option 3</label>
+                <input id="option3" type="text" required />
+                <label class="option-item admin-correct-toggle"><input id="correct3" type="radio" name="correctOption" value="2" /><span>Correct answer</span></label>
+              </div>
+              <div class="form-group">
+                <label for="option4">Option 4</label>
+                <input id="option4" type="text" required />
+                <label class="option-item admin-correct-toggle"><input id="correct4" type="radio" name="correctOption" value="3" /><span>Correct answer</span></label>
+              </div>
+            </div>
+
+            <div class="toolbar-actions">
+              <button id="resetQuestionBtn" class="btn btn-muted" type="button">Reset</button>
+              <button id="saveQuestionBtn" class="btn btn-primary" type="submit">Save Question</button>
+            </div>
+          </form>
+
+          <div id="adminQuestionList" class="admin-question-list"></div>
+        </article>
+      </section>
+    </div>
+  </main>
+
+  <div id="toast" class="toast"></div>
+
+  <script src="../assets/js/core/config.js?v=20260325a"></script>
+  <script src="../assets/js/core/ui.js?v=20260325a"></script>
+  <script src="../assets/js/core/api.js?v=20260325a"></script>
+  <script src="../assets/js/core/auth-guard.js?v=20260325a"></script>
+  <script src="../assets/js/pages/admin.js?v=20260325a"></script>
+</body>
+</html>

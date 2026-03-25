@@ -2,9 +2,12 @@ package com.careerplanning.backend.modules.goals.controller;
 
 import com.careerplanning.backend.common.response.ApiResponse;
 import com.careerplanning.backend.modules.goals.dto.CreateGoalRequest;
+import com.careerplanning.backend.modules.goals.dto.CreateGoalTaskRequest;
 import com.careerplanning.backend.modules.goals.dto.GoalResponse;
 import com.careerplanning.backend.modules.goals.dto.GoalStatsResponse;
+import com.careerplanning.backend.modules.goals.dto.GoalTaskResponse;
 import com.careerplanning.backend.modules.goals.dto.UpdateGoalRequest;
+import com.careerplanning.backend.modules.goals.dto.UpdateGoalTaskRequest;
 import com.careerplanning.backend.modules.goals.service.GoalService;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -56,6 +59,34 @@ public class GoalController {
                                                 @PathVariable Long goalId,
                                                 @Valid @RequestBody UpdateGoalRequest request) {
         return ApiResponse.success(goalService.updateGoal(token, goalId, request));
+    }
+
+    @GetMapping("/{goalId}/tasks")
+    public ApiResponse<List<GoalTaskResponse>> listGoalTasks(@RequestHeader("X-Auth-Token") String token,
+                                                             @PathVariable Long goalId) {
+        return ApiResponse.success(goalService.listGoalTasks(token, goalId));
+    }
+
+    @PostMapping("/{goalId}/tasks")
+    public ApiResponse<GoalResponse> createGoalTask(@RequestHeader("X-Auth-Token") String token,
+                                                    @PathVariable Long goalId,
+                                                    @Valid @RequestBody CreateGoalTaskRequest request) {
+        return ApiResponse.success(goalService.createGoalTask(token, goalId, request));
+    }
+
+    @PutMapping("/{goalId}/tasks/{taskId}")
+    public ApiResponse<GoalResponse> updateGoalTask(@RequestHeader("X-Auth-Token") String token,
+                                                    @PathVariable Long goalId,
+                                                    @PathVariable Long taskId,
+                                                    @Valid @RequestBody UpdateGoalTaskRequest request) {
+        return ApiResponse.success(goalService.updateGoalTask(token, goalId, taskId, request));
+    }
+
+    @DeleteMapping("/{goalId}/tasks/{taskId}")
+    public ApiResponse<GoalResponse> deleteGoalTask(@RequestHeader("X-Auth-Token") String token,
+                                                    @PathVariable Long goalId,
+                                                    @PathVariable Long taskId) {
+        return ApiResponse.success(goalService.deleteGoalTask(token, goalId, taskId));
     }
 
     @DeleteMapping("/{goalId}")

@@ -1,25 +1,20 @@
 const registerForm = document.getElementById("registerForm");
 const registerBtn = document.getElementById("registerBtn");
 const roleSelect = document.getElementById("role");
-const careerTrackSelect = document.getElementById("careerTrack");
 const messageBox = document.getElementById("messageBox");
 
 if (AppApi.getToken()) {
-  window.location.href = "./dashboard.html";
+  redirectExistingSession();
 }
 
 init();
 
 async function init() {
   try {
-    const [roles, tracks] = await Promise.all([
-      AppApi.listRoles(),
-      AppApi.listCareerTracks()
-    ]);
+    const roles = await AppApi.listRoles();
 
     setOptions(roleSelect, roles, "PROFESSIONAL");
-    setOptions(careerTrackSelect, tracks, "SOFTWARE_ENGINEERING");
-    AppUi.setMessage(messageBox, "Fill the form and create your account.");
+    AppUi.setMessage(messageBox, "Fill the form to create your learner account.");
   } catch (error) {
     AppUi.setMessage(messageBox, `Failed to load options: ${error.message}`);
     AppUi.showToast("Could not load form options", "error");
@@ -43,8 +38,7 @@ registerForm.addEventListener("submit", async (event) => {
     fullName: document.getElementById("fullName").value.trim(),
     email: document.getElementById("email").value.trim(),
     password: document.getElementById("password").value,
-    role: roleSelect.value,
-    careerTrack: careerTrackSelect.value
+    role: roleSelect.value
   };
 
   AppUi.setLoading(registerBtn, true, "Creating account...");
@@ -57,12 +51,10 @@ registerForm.addEventListener("submit", async (event) => {
     });
 
     AppApi.setToken(res.data.token);
-    AppUi.setMessage(messageBox, "Account created. Redirecting to dashboard...");
+    AppUi.setMessage(messageBox, "Account created. Redirecting to the technical readiness setup...");
     AppUi.showToast("Account created successfully");
 
-    setTimeout(() => {
-      window.location.href = "./dashboard.html";
-    }, 550);
+    setTimeout(redirectAfterRegister, 400);
   } catch (error) {
     AppUi.setMessage(messageBox, error.message);
     AppUi.showToast(error.message, "error");
@@ -70,3 +62,22 @@ registerForm.addEventListener("submit", async (event) => {
     AppUi.setLoading(registerBtn, false);
   }
 });
+
+function redirectAfterRegister() {
+  window.location.href = "./technical-readiness.html";
+}
+
+async function redirectExistingSession() {
+  try {
+    const profile = await AppApi.getMe();
+    if (window.AppSession && typeof window.AppSession.redirectToLanding === "function") {
+      window.AppSession.redirectToLanding(profile);
+      return;
+    }
+    window.location.href = profile && profile.onboardingCompleted === false
+      ? "./technical-readiness.html"
+      : "./home.html";
+  } catch (error) {
+    AppApi.clearToken();
+  }
+}

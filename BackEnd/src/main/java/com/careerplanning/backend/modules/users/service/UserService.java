@@ -1,9 +1,9 @@
 package com.careerplanning.backend.modules.users.service;
 
 import com.careerplanning.backend.modules.auth.service.SimpleTokenService;
+import com.careerplanning.backend.modules.career.service.CareerTrackCatalogService;
 import com.careerplanning.backend.modules.users.dto.UpdateUserProfileRequest;
 import com.careerplanning.backend.modules.users.dto.UserProfileResponse;
-import com.careerplanning.backend.modules.users.entity.CareerTrack;
 import com.careerplanning.backend.modules.users.entity.User;
 import com.careerplanning.backend.modules.users.entity.UserRole;
 import com.careerplanning.backend.modules.users.repository.UserRepository;
@@ -14,10 +14,14 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final SimpleTokenService simpleTokenService;
+    private final CareerTrackCatalogService careerTrackCatalogService;
 
-    public UserService(UserRepository userRepository, SimpleTokenService simpleTokenService) {
+    public UserService(UserRepository userRepository,
+                       SimpleTokenService simpleTokenService,
+                       CareerTrackCatalogService careerTrackCatalogService) {
         this.userRepository = userRepository;
         this.simpleTokenService = simpleTokenService;
+        this.careerTrackCatalogService = careerTrackCatalogService;
     }
 
     public UserProfileResponse getCurrentUserProfile(String token) {
@@ -45,6 +49,7 @@ public class UserService {
         user.setLocation(toNullableTrimmed(request.location()));
         user.setRole(validateRole(request.role()));
         user.setCareerTrack(validateCareerTrack(request.careerTrack()));
+        user.setOnboardingCompleted(true);
 
         User saved = userRepository.save(user);
         return toProfileResponse(saved);
@@ -60,18 +65,14 @@ public class UserService {
 
     private String validateRole(String role) {
         String normalized = role == null ? "" : role.trim().toUpperCase();
-        if (!UserRole.isValid(normalized)) {
-            throw new IllegalArgumentException("Invalid role. Use one of: " + String.join(", ", UserRole.options()));
+        if (!UserRole.isSelfServiceRole(normalized)) {
+            throw new IllegalArgumentException("Invalid role. Use one of: " + String.join(", ", UserRole.selfServiceOptions()));
         }
         return normalized;
     }
 
     private String validateCareerTrack(String careerTrack) {
-        String normalized = careerTrack == null ? "" : careerTrack.trim().toUpperCase();
-        if (!CareerTrack.isValid(normalized)) {
-            throw new IllegalArgumentException("Invalid careerTrack. Use one of: " + String.join(", ", CareerTrack.options()));
-        }
-        return normalized;
+        return careerTrackCatalogService.validateKnownCareerTrack(careerTrack);
     }
 
     private UserProfileResponse toProfileResponse(User user) {
@@ -81,6 +82,7 @@ public class UserService {
                 user.getEmail(),
                 user.getRole(),
                 user.getCareerTrack(),
+                user.isOnboardingCompleted(),
                 user.getBio(),
                 user.getLocation(),
                 user.getCreatedAt()

@@ -4,17 +4,18 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Goal Detail - CareerPath</title>
-  <link rel="stylesheet" href="../assets/css/styles.css" />
+  <link rel="stylesheet" href="../assets/css/styles.css?v=20260305e" />
 </head>
 <body>
   <header class="topbar">
     <div class="topbar-inner">
-      <a class="brand" href="./dashboard.html">
+      <a class="brand" href="./home.html">
         <span class="brand-mark">CP</span>
         <span class="gradient-text">CareerPath</span>
       </a>
 
       <nav class="topnav">
+        <a class="nav-link" href="./home.html">Home</a>
         <a class="nav-link" href="./dashboard.html">Dashboard</a>
         <a class="nav-link active" href="./goals.html">Goals</a>
         <a class="nav-link" href="./analytics.html">Analytics</a>
@@ -28,6 +29,13 @@
   <main class="main-content">
     <div class="container">
       <a class="btn btn-ghost btn-small" href="./goals.html" style="margin-bottom: 0.8rem;">Back to Goals</a>
+
+      <div style="display:none;" aria-hidden="true">
+        <div id="messageBox"></div>
+        <input id="progressRange" type="range" min="0" max="100" value="0" />
+        <strong id="progressValue">0%</strong>
+        <button id="saveProgressBtn" type="button">Save Progress</button>
+      </div>
 
       <section class="detail-header">
         <div class="goal-title-row" style="margin-bottom: 0.4rem;">
@@ -52,24 +60,45 @@
       <section class="detail-layout">
         <div class="stack">
           <article class="section-card">
-            <h3 style="margin-bottom:0.6rem;">Update Progress</h3>
-            <div class="range-wrap">
-              <div style="display:flex;justify-content:space-between;align-items:center;">
-                <span class="text-muted">Progress</span>
-                <strong id="progressValue">0%</strong>
-              </div>
-              <input id="progressRange" type="range" min="0" max="100" value="0" />
-              <button id="saveProgressBtn" class="btn btn-primary" type="button">Save Progress</button>
+            <div class="section-header">
+              <h3>Execution Checklist</h3>
+              <span id="taskSummary" class="chip status-in-progress">0 / 0 completed</span>
             </div>
+            <p class="text-muted" style="margin-bottom: 0.6rem;">Complete scheduled milestone tasks to automatically increase progress.</p>
+            <div id="taskList" class="task-list"></div>
           </article>
 
           <article class="section-card">
-            <h3 style="margin-bottom:0.6rem;">Change Status</h3>
-            <div class="status-options">
-              <button data-status="PLANNED" class="btn btn-ghost" type="button">Planned</button>
-              <button data-status="IN_PROGRESS" class="btn btn-ghost" type="button">In Progress</button>
-              <button data-status="COMPLETED" class="btn btn-ghost" type="button">Completed</button>
+            <div class="section-header">
+              <h3>Add Additional Task</h3>
             </div>
+            <form id="createTaskForm" class="form">
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="taskTitleInput">Task Title</label>
+                  <input id="taskTitleInput" type="text" maxlength="320" placeholder="Define benchmark scenario" required />
+                </div>
+                <div class="form-group">
+                  <label for="taskDueDateInput">Due Date</label>
+                  <input id="taskDueDateInput" type="date" />
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="taskWeightInput">Contribution Score (5-40)</label>
+                  <input id="taskWeightInput" type="number" min="5" max="40" value="15" />
+                </div>
+                <div class="form-group">
+                  <label for="taskDetailsInput">Details</label>
+                  <input id="taskDetailsInput" type="text" maxlength="2000" placeholder="Clear evidence required to mark as done" />
+                </div>
+              </div>
+
+              <div class="toolbar-actions">
+                <button id="createTaskBtn" class="btn btn-secondary" type="submit">Add Task</button>
+              </div>
+            </form>
           </article>
 
           <article class="section-card">
@@ -86,24 +115,30 @@
           </article>
 
           <article class="section-card">
-            <h3 style="margin-bottom:0.6rem;">Quick Actions</h3>
+            <h3 style="margin-bottom:0.6rem;">Goal Actions</h3>
+            <p class="text-muted" style="margin-bottom:0.6rem;">Adjust schedule and status for this goal.</p>
+            <div class="form-group" style="margin-bottom:0.6rem;">
+              <label for="goalTargetDateInput">Goal Deadline</label>
+              <input id="goalTargetDateInput" type="date" />
+            </div>
             <div class="stack" style="gap:0.5rem;">
-              <a class="btn btn-ghost" href="./goals.html">Open Goals Workspace</a>
-              <button id="deleteGoalBtn" class="btn btn-danger" type="button">Delete Goal</button>
+              <button id="saveTargetDateBtn" class="btn btn-secondary" type="button">Update Deadline</button>
+              <button id="markGoalCompletedBtn" class="btn btn-success" type="button">Mark Goal Completed</button>
+              <button id="markGoalPlannedBtn" class="btn btn-muted" type="button">Reset to Planned</button>
+              <button id="deleteGoalBtn" class="btn btn-danger" type="button">Remove Goal</button>
             </div>
           </article>
         </aside>
       </section>
-
-      <pre id="messageBox" class="message">Ready.</pre>
     </div>
   </main>
 
   <div id="toast" class="toast"></div>
 
-  <script src="../assets/js/config.js"></script>
-  <script src="../assets/js/ui.js"></script>
-  <script src="../assets/js/api.js"></script>
-  <script src="../assets/js/goal-detail.js"></script>
+  <script src="../assets/js/core/config.js?v=20260305e"></script>
+  <script src="../assets/js/core/ui.js?v=20260305e"></script>
+  <script src="../assets/js/core/api.js?v=20260305e"></script>
+  <script src="../assets/js/core/auth-guard.js?v=20260305e"></script>
+  <script src="../assets/js/pages/goal-detail.js?v=20260305e"></script>
 </body>
 </html>

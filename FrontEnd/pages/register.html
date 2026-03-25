@@ -3,30 +3,31 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Register - CareerPath</title>
-  <link rel="stylesheet" href="../assets/css/styles.css" />
+  <title>Create Learner Account - CareerPath</title>
+  <link rel="stylesheet" href="../assets/css/styles.css?v=20260325a" />
 </head>
 <body>
   <main class="auth-shell">
     <section class="auth-panel-info">
-      <p class="eyebrow">Career Planning Platform</p>
-      <h1>Start Your Career Journey Today</h1>
+      <p class="eyebrow">Learner Registration</p>
+      <h1>Create your learner workspace</h1>
       <p>
-        Create your account, pick your role and track, and unlock a focused planning workspace.
+        Register once, then continue straight into your technical readiness setup and learning plan.
       </p>
       <ul class="auth-feature-list">
-        <li>Set personalized career goals</li>
-        <li>Track progress with analytics</li>
-        <li>Use track-based goal templates</li>
-        <li>Monitor completion rate and priorities</li>
+        <li>Role-based technical readiness questions</li>
+        <li>Readiness level history and improvement tracking</li>
+        <li>Career roadmap goals and task execution</li>
+        <li>Ongoing reassessment support</li>
       </ul>
-      <a class="btn btn-ghost" href="../index.html">Back to Home</a>
+      <a class="btn btn-ghost" href="../index.html">Back to Portal Selection</a>
     </section>
 
     <section class="auth-panel-form">
       <div class="auth-form-card">
+        <p class="eyebrow">Learner Portal</p>
         <h2>Create Account</h2>
-        <p>Start planning your next career milestone.</p>
+        <p>Start with your basic account details, then continue to the technical readiness flow.</p>
 
         <form id="registerForm" class="form">
           <div class="form-group">
@@ -51,27 +52,21 @@
             </select>
           </div>
 
-          <div class="form-group">
-            <label for="careerTrack">Career Track</label>
-            <select id="careerTrack" required>
-              <option value="">Loading tracks...</option>
-            </select>
-          </div>
-
+          <p id="messageBox" class="text-muted" style="min-height: 1.25rem; margin-bottom: 0.75rem;"></p>
           <button id="registerBtn" type="submit" class="btn btn-primary btn-block">Create Account</button>
         </form>
 
-        <p class="footer-link">Already have an account? <a href="./login.html">Sign in</a></p>
-        <pre id="messageBox" class="message">Ready.</pre>
+        <p class="footer-link">Already have an account? <a href="./login.html?portal=user">Sign in</a></p>
       </div>
     </section>
   </main>
 
   <div id="toast" class="toast"></div>
 
-  <script src="../assets/js/config.js"></script>
-  <script src="../assets/js/ui.js"></script>
-  <script src="../assets/js/api.js"></script>
-  <script src="../assets/js/register.js"></script>
+  <script src="../assets/js/core/config.js?v=20260325a"></script>
+  <script src="../assets/js/core/ui.js?v=20260325a"></script>
+  <script src="../assets/js/core/api.js?v=20260325a"></script>
+  <script src="../assets/js/core/auth-guard.js?v=20260325a"></script>
+  <script src="../assets/js/pages/register.js?v=20260325a"></script>
 </body>
 </html>
