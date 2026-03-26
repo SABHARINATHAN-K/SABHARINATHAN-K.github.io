@@ -3,9 +3,6 @@ const loginBtn = document.getElementById("loginBtn");
 const messageBox = document.getElementById("messageBox");
 const googleSignInContainer = document.getElementById("googleSignInContainer");
 const googleSignInHint = document.getElementById("googleSignInHint");
-const googleClientId = window.APP_CONFIG && window.APP_CONFIG.GOOGLE_CLIENT_ID
-  ? String(window.APP_CONFIG.GOOGLE_CLIENT_ID).trim()
-  : "";
 
 const portalBadge = document.getElementById("portalBadge");
 const loginHeading = document.getElementById("loginHeading");
@@ -23,8 +20,6 @@ applyPortalCopy();
 if (AppApi.getToken()) {
   redirectAfterAuth();
 }
-
-initGoogleSignIn();
 
 loginForm.addEventListener("submit", async (event) => {
   event.preventDefault();
@@ -108,13 +103,6 @@ function applyPortalCopy() {
     infoTitle.textContent = "Access platform administration";
     infoText.textContent = "Admins can open student plans, review readiness progress, and edit the question bank by role.";
     loginFooterLink.innerHTML = "Need the learner workspace instead? <a href='./login.html?portal=user'>Switch to learner sign in</a>";
-    if (googleSignInContainer) {
-      googleSignInContainer.classList.add("hidden");
-    }
-    if (googleSignInHint) {
-      googleSignInHint.textContent = "Google sign-in is only available for learner login in this build.";
-      googleSignInHint.classList.remove("hidden");
-    }
     return;
   }
 
@@ -125,68 +113,3 @@ function applyPortalCopy() {
   infoTitle.textContent = "Log in to continue your plan";
   infoText.textContent = "Use the learner portal for readiness checks, goals, and analytics. Use the admin portal for platform oversight.";
   loginFooterLink.innerHTML = "Need a learner account? <a href='./register.html'>Create account</a>";
-}
-
-function initGoogleSignIn() {
-  if (portalMode === "admin" || !googleSignInContainer) {
-    return;
-  }
-
-  if (!googleClientId) {
-    googleSignInHint?.classList.remove("hidden");
-    return;
-  }
-
-  waitForGoogleSdk(0);
-}
-
-function waitForGoogleSdk(attempt) {
-  const googleSdkReady = Boolean(window.google && window.google.accounts && window.google.accounts.id);
-  if (!googleSdkReady) {
-    if (attempt < 30) {
-      window.setTimeout(() => waitForGoogleSdk(attempt + 1), 200);
-      return;
-    }
-    googleSignInHint?.classList.remove("hidden");
-    return;
-  }
-
-  window.google.accounts.id.initialize({
-    client_id: googleClientId,
-    callback: handleGoogleCredentialResponse
-  });
-
-  googleSignInContainer.innerHTML = "";
-  window.google.accounts.id.renderButton(
-    googleSignInContainer,
-    {
-      theme: "outline",
-      size: "large",
-      text: "signin_with",
-      shape: "pill"
-    }
-  );
-
-  googleSignInContainer.classList.remove("hidden");
-  googleSignInHint?.classList.add("hidden");
-}
-
-async function handleGoogleCredentialResponse(response) {
-  const credential = response && response.credential ? String(response.credential) : "";
-  if (!credential) {
-    AppUi.showToast("Google sign-in failed. Missing token.", "error");
-    return;
-  }
-
-  AppUi.setMessage(messageBox, "Signing in with Google...");
-
-  try {
-    const auth = await AppApi.loginWithGoogle(credential);
-    AppApi.setToken(auth.token);
-    AppUi.showToast("Google sign-in successful");
-    window.setTimeout(redirectAfterAuth, 300);
-  } catch (error) {
-    AppUi.setMessage(messageBox, error.message);
-    AppUi.showToast(error.message, "error");
-  }
-}

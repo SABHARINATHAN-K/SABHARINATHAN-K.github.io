@@ -3,7 +3,8 @@ CREATE TABLE IF NOT EXISTS assessment_questions (
     question_text VARCHAR(1000) NOT NULL,
     stage INT NOT NULL,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT chk_assessment_questions_stage CHECK (stage IN (1, 2, 3))
+    CONSTRAINT chk_assessment_questions_stage CHECK (stage IN (1, 2, 3)),
+    INDEX idx_assessment_questions_stage (stage)
 );
 
 CREATE TABLE IF NOT EXISTS assessment_options (
@@ -13,11 +14,9 @@ CREATE TABLE IF NOT EXISTS assessment_options (
     weight_json JSON NOT NULL,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT fk_assessment_options_question
-        FOREIGN KEY (question_id) REFERENCES assessment_questions(id) ON DELETE CASCADE
+        FOREIGN KEY (question_id) REFERENCES assessment_questions(id) ON DELETE CASCADE,
+    INDEX idx_assessment_options_question_id (question_id)
 );
-
-CREATE INDEX idx_assessment_questions_stage ON assessment_questions(stage);
-CREATE INDEX idx_assessment_options_question_id ON assessment_options(question_id);
 
 CREATE TABLE IF NOT EXISTS assessment_results (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
@@ -26,10 +25,9 @@ CREATE TABLE IF NOT EXISTS assessment_results (
     recommended_track VARCHAR(100) NOT NULL,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT fk_assessment_results_user
-        FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+        FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    INDEX idx_assessment_results_user_id (user_id)
 );
-
-CREATE INDEX idx_assessment_results_user_id ON assessment_results(user_id);
 
 CREATE TABLE IF NOT EXISTS career_phases (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
@@ -50,11 +48,10 @@ CREATE TABLE IF NOT EXISTS career_goal_templates (
     priority VARCHAR(20) NOT NULL,
     default_order INT NOT NULL,
     CONSTRAINT fk_career_goal_templates_phase
-        FOREIGN KEY (phase_id) REFERENCES career_phases(id) ON DELETE CASCADE
+        FOREIGN KEY (phase_id) REFERENCES career_phases(id) ON DELETE CASCADE,
+    INDEX idx_career_goal_templates_track (career_track),
+    INDEX idx_career_goal_templates_phase_id (phase_id)
 );
-
-CREATE INDEX idx_career_goal_templates_track ON career_goal_templates(career_track);
-CREATE INDEX idx_career_goal_templates_phase_id ON career_goal_templates(phase_id);
 
 ALTER TABLE goals
     ADD COLUMN is_blueprint_goal BOOLEAN NOT NULL DEFAULT FALSE,
