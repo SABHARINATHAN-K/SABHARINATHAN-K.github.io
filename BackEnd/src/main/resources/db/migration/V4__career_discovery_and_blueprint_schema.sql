@@ -64,5 +64,6 @@ ALTER TABLE goals
     ADD CONSTRAINT fk_goals_blueprint_template
         FOREIGN KEY (blueprint_template_id) REFERENCES career_goal_templates(id) ON DELETE SET NULL;
 
+DROP INDEX IF EXISTS idx_goals_blueprint_flags ON goals;
 CREATE INDEX idx_goals_blueprint_flags
     ON goals(user_id, is_blueprint_goal, status, blueprint_phase_order, blueprint_default_order);
