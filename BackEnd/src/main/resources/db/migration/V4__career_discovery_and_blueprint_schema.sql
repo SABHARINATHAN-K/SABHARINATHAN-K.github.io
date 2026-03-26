@@ -54,11 +54,11 @@ CREATE TABLE IF NOT EXISTS career_goal_templates (
 );
 
 ALTER TABLE goals
-    ADD COLUMN is_blueprint_goal BOOLEAN NOT NULL DEFAULT FALSE,
-    ADD COLUMN blueprint_template_id BIGINT NULL,
-    ADD COLUMN blueprint_phase_order INT NULL,
-    ADD COLUMN blueprint_default_order INT NULL,
-    ADD COLUMN blueprint_phase_title VARCHAR(255) NULL;
+    ADD COLUMN IF NOT EXISTS is_blueprint_goal BOOLEAN NOT NULL DEFAULT FALSE,
+    ADD COLUMN IF NOT EXISTS blueprint_template_id BIGINT NULL,
+    ADD COLUMN IF NOT EXISTS blueprint_phase_order INT NULL,
+    ADD COLUMN IF NOT EXISTS blueprint_default_order INT NULL,
+    ADD COLUMN IF NOT EXISTS blueprint_phase_title VARCHAR(255) NULL;
 
 ALTER TABLE goals
     ADD CONSTRAINT fk_goals_blueprint_template
