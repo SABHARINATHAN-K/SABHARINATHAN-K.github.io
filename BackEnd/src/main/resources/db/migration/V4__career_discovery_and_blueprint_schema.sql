@@ -61,6 +61,9 @@ ALTER TABLE goals
     ADD COLUMN IF NOT EXISTS blueprint_phase_title VARCHAR(255) NULL;
 
 ALTER TABLE goals
+    DROP CONSTRAINT IF EXISTS fk_goals_blueprint_template;
+
+ALTER TABLE goals
     ADD CONSTRAINT fk_goals_blueprint_template
         FOREIGN KEY (blueprint_template_id) REFERENCES career_goal_templates(id) ON DELETE SET NULL;
 
