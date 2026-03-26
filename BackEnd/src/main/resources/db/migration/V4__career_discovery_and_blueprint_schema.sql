@@ -61,7 +61,9 @@ ALTER TABLE goals
     ADD COLUMN blueprint_template_id BIGINT NULL,
     ADD COLUMN blueprint_phase_order INT NULL,
     ADD COLUMN blueprint_default_order INT NULL,
-    ADD COLUMN blueprint_phase_title VARCHAR(255) NULL,
+    ADD COLUMN blueprint_phase_title VARCHAR(255) NULL;
+
+ALTER TABLE goals
     ADD CONSTRAINT fk_goals_blueprint_template
         FOREIGN KEY (blueprint_template_id) REFERENCES career_goal_templates(id) ON DELETE SET NULL;
 
