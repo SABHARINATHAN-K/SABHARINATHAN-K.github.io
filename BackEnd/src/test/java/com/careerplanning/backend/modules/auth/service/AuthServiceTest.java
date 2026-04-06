@@ -126,7 +126,7 @@ class AuthServiceTest {
         AuthResponse response = authService.register(new RegisterRequest(
                 "Admin User",
                 "admin@example.com",
-                "Password123",
+                "Password123!",
                 UserRole.ADMIN.name(),
                 null
         ));
@@ -143,7 +143,7 @@ class AuthServiceTest {
         assertThrows(AccessDeniedException.class, () -> authService.register(new RegisterRequest(
                 "Admin User",
                 "admin@example.com",
-                "Password123",
+                "Password123!",
                 UserRole.ADMIN.name(),
                 null
         )));

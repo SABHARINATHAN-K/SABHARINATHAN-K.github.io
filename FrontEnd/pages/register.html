@@ -42,7 +42,16 @@
 
           <div class="form-group">
             <label for="password">Password</label>
-            <input id="password" type="password" minlength="8" placeholder="Minimum 8 characters" required />
+            <input
+              id="password"
+              type="password"
+              minlength="8"
+              pattern="(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^A-Za-z0-9]).{8,}"
+              placeholder="At least 8 chars with Aa1!"
+              title="Use at least 8 characters with one uppercase, one lowercase, one number, and one special character."
+              required
+            />
+            <span class="field-help">Use at least 8 characters with uppercase, lowercase, number, and special character.</span>
           </div>
 
           <div class="form-group">

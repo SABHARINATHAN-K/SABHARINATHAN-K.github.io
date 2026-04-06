@@ -113,3 +113,4 @@ function applyPortalCopy() {
   infoTitle.textContent = "Log in to continue your plan";
   infoText.textContent = "Use the learner portal for readiness checks, goals, and analytics. Use the admin portal for platform oversight.";
   loginFooterLink.innerHTML = "Need a learner account? <a href='./register.html'>Create account</a>";
+}
