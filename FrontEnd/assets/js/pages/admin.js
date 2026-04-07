@@ -3,6 +3,7 @@ const adminInitial = document.getElementById("adminInitial");
 const adminName = document.getElementById("adminName");
 const adminEmail = document.getElementById("adminEmail");
 const adminUserSearch = document.getElementById("adminUserSearch");
+const adminUserRoleFilter = document.getElementById("adminUserRoleFilter");
 const adminUserList = document.getElementById("adminUserList");
 const questionTrackSelect = document.getElementById("questionTrackSelect");
 const questionCareerTrack = document.getElementById("questionCareerTrack");
@@ -29,6 +30,7 @@ logoutBtn?.addEventListener("click", () => {
 });
 
 adminUserSearch?.addEventListener("input", renderUserCards);
+adminUserRoleFilter?.addEventListener("change", renderUserCards);
 questionTrackSelect?.addEventListener("change", async () => {
   questionCareerTrack.value = questionTrackSelect.value;
   resetQuestionForm();
@@ -106,7 +108,18 @@ function renderUserCards() {
   }
 
   const query = String(adminUserSearch && adminUserSearch.value ? adminUserSearch.value : "").trim().toLowerCase();
+  const roleFilter = String(adminUserRoleFilter && adminUserRoleFilter.value ? adminUserRoleFilter.value : "ALL").toUpperCase();
   const filteredUsers = allUsers.filter((user) => {
+    const isAdminAccount = isAdminRole(user.role);
+
+    if (roleFilter === "ADMIN" && !isAdminAccount) {
+      return false;
+    }
+
+    if (roleFilter === "LEARNER" && isAdminAccount) {
+      return false;
+    }
+
     if (!query) {
       return true;
     }
@@ -122,9 +135,11 @@ function renderUserCards() {
 
   adminUserList.innerHTML = filteredUsers
     .map((user) => {
+      const isAdminAccount = isAdminRole(user.role);
       const completionRate = Number(user.taskCount || 0) > 0
         ? Math.round((Number(user.completedTaskCount || 0) * 100) / Number(user.taskCount || 1))
         : 0;
+      const workspaceLabel = isAdminAccount ? "Admin portal" : "Learner portal";
       return `
         <article class="goal-item admin-user-card">
           <div class="goal-title-row">
@@ -132,16 +147,17 @@ function renderUserCards() {
               <h4>${AppUi.escapeHtml(user.fullName || "User")}</h4>
               <p class="text-muted">${AppUi.escapeHtml(user.email || "-")}</p>
             </div>
-            <span class="chip ${String(user.role || "").toUpperCase() === "ADMIN" ? "status-completed" : "status-in-progress"}">${AppUi.escapeHtml(AppUi.humanize(user.role || "USER"))}</span>
+            <span class="chip ${isAdminAccount ? "status-completed" : "status-in-progress"}">${AppUi.escapeHtml(AppUi.humanize(user.role || "USER"))}</span>
           </div>
           <div class="admin-user-meta-grid">
+            <span>Access: <strong>${workspaceLabel}</strong></span>
             <span>Track: <strong>${AppUi.escapeHtml(AppUi.humanize(user.careerTrack || "-"))}</strong></span>
             <span>Goals: <strong>${Number(user.goalCount || 0)}</strong></span>
             <span>Tasks: <strong>${Number(user.taskCount || 0)}</strong></span>
             <span>Task Completion: <strong>${completionRate}%</strong></span>
           </div>
           <div class="toolbar-actions" style="margin-top:0.9rem;">
-            <a class="btn btn-primary btn-small" href="./admin-user.html?id=${user.id}">Open Student</a>
+            <a class="btn btn-primary btn-small" href="./admin-user.html?id=${user.id}">Open Profile</a>
             <span class="chip ${user.onboardingCompleted ? "status-completed" : "status-planned"}">${user.onboardingCompleted ? "Setup complete" : "Setup pending"}</span>
           </div>
         </article>`;
@@ -327,4 +343,8 @@ function setText(id, value) {
   if (element) {
     element.textContent = String(value);
   }
+}
+
+function isAdminRole(role) {
+  return String(role || "").toUpperCase() === "ADMIN";
 }

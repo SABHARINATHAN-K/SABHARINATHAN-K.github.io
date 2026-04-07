@@ -19,7 +19,7 @@ public class AdminUserSeeder {
             String adminEmail = "sabharinathan803@gmail.com";
             
             // Find existing user to update credentials, or create a new one
-            User admin = userRepository.findByEmail(adminEmail).orElse(new User());
+            User admin = userRepository.findByEmailIgnoreCase(adminEmail).orElse(new User());
             
             admin.setFullName("Sabharinathan");
             admin.setEmail(adminEmail);

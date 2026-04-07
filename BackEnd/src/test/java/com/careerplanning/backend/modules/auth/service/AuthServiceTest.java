@@ -3,6 +3,7 @@ package com.careerplanning.backend.modules.auth.service;
 import com.careerplanning.backend.common.exception.AccessDeniedException;
 import com.careerplanning.backend.modules.auth.dto.AuthResponse;
 import com.careerplanning.backend.modules.auth.dto.GoogleSignInRequest;
+import com.careerplanning.backend.modules.auth.dto.LoginRequest;
 import com.careerplanning.backend.modules.auth.dto.RegisterRequest;
 import com.careerplanning.backend.modules.career.service.CareerTrackCatalogService;
 import com.careerplanning.backend.modules.users.entity.CareerTrack;
@@ -15,6 +16,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.Optional;
 
@@ -57,7 +59,7 @@ class AuthServiceTest {
                 );
 
         when(googleTokenVerifierService.verifyIdToken("valid-id-token")).thenReturn(verifiedGoogleUser);
-        when(userRepository.findByEmail("new.user@example.com")).thenReturn(Optional.empty());
+        when(userRepository.findByEmailIgnoreCase("new.user@example.com")).thenReturn(Optional.empty());
         when(careerTrackCatalogService.defaultCareerTrack()).thenReturn(CareerTrack.FULL_STACK_DEVELOPER.name());
         when(userRepository.save(any(User.class))).thenAnswer(invocation -> {
             User user = invocation.getArgument(0);
@@ -101,7 +103,7 @@ class AuthServiceTest {
                 );
 
         when(googleTokenVerifierService.verifyIdToken("valid-id-token")).thenReturn(verifiedGoogleUser);
-        when(userRepository.findByEmail("existing.user@example.com")).thenReturn(Optional.of(existingUser));
+        when(userRepository.findByEmailIgnoreCase("existing.user@example.com")).thenReturn(Optional.of(existingUser));
         when(simpleTokenService.createToken(44L)).thenReturn("token-44");
 
         AuthResponse response = authService.googleSignIn(new GoogleSignInRequest("valid-id-token"));
@@ -113,7 +115,7 @@ class AuthServiceTest {
 
     @Test
     void registerAllowsBootstrappingFirstAdmin() {
-        when(userRepository.existsByEmail("admin@example.com")).thenReturn(false);
+        when(userRepository.existsByEmailIgnoreCase("admin@example.com")).thenReturn(false);
         when(userRepository.existsByRole(UserRole.ADMIN.name())).thenReturn(false);
         when(careerTrackCatalogService.defaultCareerTrack()).thenReturn(CareerTrack.FULL_STACK_DEVELOPER.name());
         when(userRepository.save(any(User.class))).thenAnswer(invocation -> {
@@ -137,7 +139,7 @@ class AuthServiceTest {
 
     @Test
     void registerRejectsAdminSelfAssignmentAfterBootstrap() {
-        when(userRepository.existsByEmail("admin@example.com")).thenReturn(false);
+        when(userRepository.existsByEmailIgnoreCase("admin@example.com")).thenReturn(false);
         when(userRepository.existsByRole(UserRole.ADMIN.name())).thenReturn(true);
 
         assertThrows(AccessDeniedException.class, () -> authService.register(new RegisterRequest(
@@ -147,6 +149,48 @@ class AuthServiceTest {
                 UserRole.ADMIN.name(),
                 null
         )));
+    }
+
+    @Test
+    void registerNormalizesEmailAndFullName() {
+        when(userRepository.existsByEmailIgnoreCase("learner@example.com")).thenReturn(false);
+        when(careerTrackCatalogService.defaultCareerTrack()).thenReturn(CareerTrack.FULL_STACK_DEVELOPER.name());
+        when(userRepository.save(any(User.class))).thenAnswer(invocation -> {
+            User user = invocation.getArgument(0);
+            setId(user, 77L);
+            return user;
+        });
+        when(simpleTokenService.createToken(77L)).thenReturn("learner-token");
+
+        authService.register(new RegisterRequest(
+                "  Learner   Name  ",
+                "  Learner@Example.com ",
+                "Password123!",
+                UserRole.STUDENT.name(),
+                null
+        ));
+
+        ArgumentCaptor<User> userCaptor = ArgumentCaptor.forClass(User.class);
+        verify(userRepository).save(userCaptor.capture());
+        User savedUser = userCaptor.getValue();
+        assertThat(savedUser.getFullName()).isEqualTo("Learner Name");
+        assertThat(savedUser.getEmail()).isEqualTo("learner@example.com");
+    }
+
+    @Test
+    void loginAcceptsMixedCaseEmailInput() {
+        User user = new User();
+        setId(user, 88L);
+        user.setEmail("learner@example.com");
+        user.setPassword(new BCryptPasswordEncoder().encode("Password123!"));
+
+        when(userRepository.findByEmailIgnoreCase("learner@example.com")).thenReturn(Optional.of(user));
+        when(simpleTokenService.createToken(88L)).thenReturn("login-token");
+
+        AuthResponse response = authService.login(new LoginRequest(" Learner@Example.com ", "Password123!"));
+
+        assertThat(response.userId()).isEqualTo(88L);
+        assertThat(response.token()).isEqualTo("login-token");
     }
 
     private static void setId(User user, Long id) {

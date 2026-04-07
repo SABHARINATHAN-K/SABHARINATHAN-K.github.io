@@ -239,6 +239,79 @@ textarea:focus {
   color: var(--text-muted);
 }
 
+.field-help.is-error {
+  color: var(--danger-600);
+}
+
+.field-help.is-success {
+  color: var(--success-600);
+}
+
+.password-field {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.password-field input {
+  padding-right: 4.6rem;
+}
+
+.password-toggle {
+  position: absolute;
+  right: 0.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  border: 0;
+  background: transparent;
+  color: var(--primary-700);
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 0.2rem 0.35rem;
+  border-radius: 8px;
+}
+
+.password-toggle:hover {
+  background: var(--primary-50);
+}
+
+.password-toggle:focus-visible {
+  outline: 2px solid #93c5fd;
+}
+
+.password-checklist {
+  list-style: none;
+  display: grid;
+  gap: 0.4rem;
+  margin: 0.2rem 0 0;
+  padding: 0;
+}
+
+.password-check-item {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.password-check-item::before {
+  content: "\2022";
+  color: var(--line-strong);
+  font-size: 1rem;
+}
+
+.password-check-item.is-valid {
+  color: var(--success-600);
+}
+
+.password-check-item.is-valid::before {
+  content: "\2713";
+  color: var(--success-600);
+}
+
 .message {
   border: 1px solid var(--line);
   background: #f8fafc;
@@ -675,6 +748,16 @@ textarea:focus {
 .auth-form-card p {
   color: var(--text-muted);
   margin-bottom: 1rem;
+}
+
+.auth-note {
+  margin: 0 0 1rem;
+  padding: 0.8rem 0.9rem;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: linear-gradient(135deg, #f8fafc, #eff6ff);
+  color: var(--text-secondary) !important;
+  font-size: 0.84rem;
 }
 
 .auth-form-card .footer-link {

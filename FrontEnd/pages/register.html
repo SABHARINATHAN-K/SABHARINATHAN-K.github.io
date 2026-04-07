@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Create Learner Account - CareerPath</title>
-  <link rel="stylesheet" href="../assets/css/styles.css?v=20260325a" />
+  <link rel="stylesheet" href="../assets/css/styles.css?v=20260406a" />
 </head>
 <body>
   <main class="auth-shell">
@@ -28,30 +28,58 @@
         <p class="eyebrow">Learner Portal</p>
         <h2>Create Account</h2>
         <p>Start with your basic account details, then continue to the technical readiness flow.</p>
+        <p class="auth-note">Learner accounts are created here. Admin access is managed separately from the admin portal.</p>
 
         <form id="registerForm" class="form">
           <div class="form-group">
             <label for="fullName">Full Name</label>
-            <input id="fullName" type="text" placeholder="John Doe" required />
+            <input id="fullName" type="text" placeholder="John Doe" autocomplete="name" required />
           </div>
 
           <div class="form-group">
             <label for="email">Email Address</label>
-            <input id="email" type="email" placeholder="you@example.com" required />
+            <input id="email" type="email" placeholder="you@example.com" autocomplete="email" required />
           </div>
 
           <div class="form-group">
             <label for="password">Password</label>
-            <input
-              id="password"
-              type="password"
-              minlength="8"
-              pattern="(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^A-Za-z0-9]).{8,}"
-              placeholder="At least 8 chars with Aa1!"
-              title="Use at least 8 characters with one uppercase, one lowercase, one number, and one special character."
-              required
-            />
+            <div class="password-field">
+              <input
+                id="password"
+                type="password"
+                minlength="8"
+                maxlength="64"
+                placeholder="At least 8 chars with Aa1!"
+                autocomplete="new-password"
+                required
+              />
+              <button id="passwordToggle" class="password-toggle" type="button" aria-label="Show password">Show</button>
+            </div>
             <span class="field-help">Use at least 8 characters with uppercase, lowercase, number, and special character.</span>
+            <ul id="passwordChecklist" class="password-checklist" aria-live="polite">
+              <li class="password-check-item" data-password-rule="length">At least 8 characters</li>
+              <li class="password-check-item" data-password-rule="lower">One lowercase letter</li>
+              <li class="password-check-item" data-password-rule="upper">One uppercase letter</li>
+              <li class="password-check-item" data-password-rule="digit">One number</li>
+              <li class="password-check-item" data-password-rule="special">One special character</li>
+            </ul>
+          </div>
+
+          <div class="form-group">
+            <label for="confirmPassword">Confirm Password</label>
+            <div class="password-field">
+              <input
+                id="confirmPassword"
+                type="password"
+                minlength="8"
+                maxlength="64"
+                placeholder="Re-enter your password"
+                autocomplete="new-password"
+                required
+              />
+              <button id="confirmPasswordToggle" class="password-toggle" type="button" aria-label="Show confirm password">Show</button>
+            </div>
+            <span id="confirmPasswordHelp" class="field-help">Re-enter the same password to continue.</span>
           </div>
 
           <div class="form-group">
@@ -59,6 +87,7 @@
             <select id="role" required>
               <option value="">Loading roles...</option>
             </select>
+            <span id="roleHint" class="field-help">All listed roles use the learner workspace. Admin access is provisioned separately.</span>
           </div>
 
           <p id="messageBox" class="text-muted" style="min-height: 1.25rem; margin-bottom: 0.75rem;"></p>
@@ -72,10 +101,10 @@
 
   <div id="toast" class="toast"></div>
 
-  <script src="../assets/js/core/config.js?v=20260325a"></script>
-  <script src="../assets/js/core/ui.js?v=20260325a"></script>
-  <script src="../assets/js/core/api.js?v=20260325a"></script>
-  <script src="../assets/js/core/auth-guard.js?v=20260325a"></script>
-  <script src="../assets/js/pages/register.js?v=20260325a"></script>
+  <script src="../assets/js/core/config.js?v=20260406a"></script>
+  <script src="../assets/js/core/ui.js?v=20260406a"></script>
+  <script src="../assets/js/core/api.js?v=20260406a"></script>
+  <script src="../assets/js/core/auth-guard.js?v=20260406a"></script>
+  <script src="../assets/js/pages/register.js?v=20260406a"></script>
 </body>
 </html>

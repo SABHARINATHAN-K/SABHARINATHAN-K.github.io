@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Admin Portal - CareerPath</title>
-  <link rel="stylesheet" href="../assets/css/styles.css?v=20260325a" />
+  <link rel="stylesheet" href="../assets/css/styles.css?v=20260406a" />
 </head>
 <body>
   <header class="topbar admin-topbar">
@@ -75,12 +75,22 @@
         <article class="section-card">
           <div class="section-header">
             <div>
-              <h3>Students and Users</h3>
-              <p class="text-muted">Click a user to open their full plan and progress view.</p>
+              <h3>Learners and Admins</h3>
+              <p class="text-muted">Filter by access level, then open the right workspace for each account.</p>
             </div>
-            <div class="form-group admin-search-group">
-              <label for="adminUserSearch">Search</label>
-              <input id="adminUserSearch" type="text" placeholder="Search by name, email, or role" />
+            <div class="toolbar-actions">
+              <div class="form-group admin-inline-field">
+                <label for="adminUserRoleFilter">Access Level</label>
+                <select id="adminUserRoleFilter">
+                  <option value="ALL">All accounts</option>
+                  <option value="LEARNER">Learners only</option>
+                  <option value="ADMIN">Admins only</option>
+                </select>
+              </div>
+              <div class="form-group admin-search-group">
+                <label for="adminUserSearch">Search</label>
+                <input id="adminUserSearch" type="text" placeholder="Search by name, email, role, or track" />
+              </div>
             </div>
           </div>
           <div id="adminUserList" class="admin-user-list"></div>
@@ -183,10 +193,10 @@
 
   <div id="toast" class="toast"></div>
 
-  <script src="../assets/js/core/config.js?v=20260325a"></script>
-  <script src="../assets/js/core/ui.js?v=20260325a"></script>
-  <script src="../assets/js/core/api.js?v=20260325a"></script>
-  <script src="../assets/js/core/auth-guard.js?v=20260325a"></script>
-  <script src="../assets/js/pages/admin.js?v=20260325a"></script>
+  <script src="../assets/js/core/config.js?v=20260406a"></script>
+  <script src="../assets/js/core/ui.js?v=20260406a"></script>
+  <script src="../assets/js/core/api.js?v=20260406a"></script>
+  <script src="../assets/js/core/auth-guard.js?v=20260406a"></script>
+  <script src="../assets/js/pages/admin.js?v=20260406a"></script>
 </body>
 </html>

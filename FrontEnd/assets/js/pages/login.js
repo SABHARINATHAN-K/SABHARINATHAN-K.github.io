@@ -3,6 +3,10 @@ const loginBtn = document.getElementById("loginBtn");
 const messageBox = document.getElementById("messageBox");
 const googleSignInContainer = document.getElementById("googleSignInContainer");
 const googleSignInHint = document.getElementById("googleSignInHint");
+const emailInput = document.getElementById("email");
+const passwordInput = document.getElementById("password");
+const passwordToggle = document.getElementById("passwordToggle");
+const portalHint = document.getElementById("portalHint");
 
 const portalBadge = document.getElementById("portalBadge");
 const loginHeading = document.getElementById("loginHeading");
@@ -16,6 +20,7 @@ const portalAdminLink = document.getElementById("portalAdminLink");
 
 const portalMode = getPortalMode();
 applyPortalCopy();
+bindPasswordToggle(passwordToggle, passwordInput);
 
 if (AppApi.getToken()) {
   redirectAfterAuth();
@@ -24,11 +29,11 @@ if (AppApi.getToken()) {
 loginForm.addEventListener("submit", async (event) => {
   event.preventDefault();
 
-  const email = document.getElementById("email").value.trim();
-  const password = document.getElementById("password").value;
+  const email = normalizeEmailValue(emailInput && emailInput.value);
+  const password = passwordInput ? passwordInput.value : "";
 
   AppUi.setLoading(loginBtn, true, "Signing in...");
-  AppUi.setMessage(messageBox, portalMode === "admin" ? "Verifying admin access..." : "Authenticating...");
+  AppUi.setMessage(messageBox, portalMode === "admin" ? "Verifying admin access..." : "Authenticating your learner workspace...");
 
   try {
     const res = await AppApi.request("/api/v1/auth/login", {
@@ -43,12 +48,42 @@ loginForm.addEventListener("submit", async (event) => {
 
     setTimeout(redirectAfterAuth, 350);
   } catch (error) {
-    AppUi.setMessage(messageBox, error.message);
-    AppUi.showToast(error.message, "error");
+    const friendlyMessage = formatLoginError(error);
+    AppUi.setMessage(messageBox, friendlyMessage);
+    AppUi.showToast(friendlyMessage, "error");
   } finally {
     AppUi.setLoading(loginBtn, false);
   }
 });
+
+function bindPasswordToggle(button, input) {
+  if (!button || !input) {
+    return;
+  }
+
+  button.addEventListener("click", () => {
+    const nextType = input.type === "password" ? "text" : "password";
+    input.type = nextType;
+    button.textContent = nextType === "password" ? "Show" : "Hide";
+    button.setAttribute("aria-label", nextType === "password" ? "Show password" : "Hide password");
+  });
+}
+
+function normalizeEmailValue(value) {
+  return String(value || "").trim().toLowerCase();
+}
+
+function formatLoginError(error) {
+  if (!error || !error.message) {
+    return "Could not complete login.";
+  }
+
+  if (error.message === "Invalid credentials") {
+    return "Invalid credentials. Check your email spelling and password case, then try again.";
+  }
+
+  return error.message;
+}
 
 async function redirectAfterAuth() {
   try {
@@ -59,7 +94,7 @@ async function redirectAfterAuth() {
 
     if (portalMode === "admin" && !isAdmin) {
       AppApi.clearToken();
-      AppUi.setMessage(messageBox, "This account does not have admin access.");
+      AppUi.setMessage(messageBox, "This account does not have admin access. Use the learner portal instead.");
       AppUi.showToast("Admin access required", "error");
       return;
     }
@@ -101,8 +136,10 @@ function applyPortalCopy() {
     loginSubheading.textContent = "Use your admin account to manage learners, plans, and question quality.";
     infoEyebrow.textContent = "Admin Control Room";
     infoTitle.textContent = "Access platform administration";
-    infoText.textContent = "Admins can open student plans, review readiness progress, and edit the question bank by role.";
+    infoText.textContent = "Admins can open learner plans, review readiness progress, and edit the question bank by role.";
+    portalHint.textContent = "Use the admin tab only for provisioned admin accounts. Learner accounts should sign in from the learner tab.";
     loginFooterLink.innerHTML = "Need the learner workspace instead? <a href='./login.html?portal=user'>Switch to learner sign in</a>";
+    AppUi.setMessage(messageBox, "Use your admin email and password to enter the control room.");
     return;
   }
 
@@ -112,5 +149,10 @@ function applyPortalCopy() {
   infoEyebrow.textContent = "Technical Readiness Workflow";
   infoTitle.textContent = "Log in to continue your plan";
   infoText.textContent = "Use the learner portal for readiness checks, goals, and analytics. Use the admin portal for platform oversight.";
+  portalHint.textContent = "Learner accounts are created from the register page. Email matching is case-insensitive, so you can sign in with any letter casing.";
   loginFooterLink.innerHTML = "Need a learner account? <a href='./register.html'>Create account</a>";
+  AppUi.setMessage(messageBox, "Use the email and password you registered with to continue.");
 }
+
+void googleSignInContainer;
+void googleSignInHint;

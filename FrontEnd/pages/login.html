@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Sign In - CareerPath</title>
-  <link rel="stylesheet" href="../assets/css/styles.css?v=20260325a" />
+  <link rel="stylesheet" href="../assets/css/styles.css?v=20260406a" />
 </head>
 <body>
   <main class="auth-shell">
@@ -22,14 +22,18 @@
         <form id="loginForm" class="form">
           <div class="form-group">
             <label for="email">Email Address</label>
-            <input id="email" type="email" placeholder="you@example.com" required />
+            <input id="email" type="email" placeholder="you@example.com" autocomplete="email" required />
           </div>
 
           <div class="form-group">
             <label for="password">Password</label>
-            <input id="password" type="password" placeholder="Enter your password" required />
+            <div class="password-field">
+              <input id="password" type="password" placeholder="Enter your password" autocomplete="current-password" required />
+              <button id="passwordToggle" class="password-toggle" type="button" aria-label="Show password">Show</button>
+            </div>
           </div>
 
+          <p id="portalHint" class="auth-note">Use the learner portal for registered learner accounts. Switch to the admin tab only for admin access.</p>
           <p id="messageBox" class="text-muted" style="min-height: 1.25rem; margin-bottom: 0.75rem;"></p>
           <button id="loginBtn" type="submit" class="btn btn-primary btn-block">Sign In</button>
         </form>
@@ -58,11 +62,11 @@
 
   <div id="toast" class="toast"></div>
 
-  <script src="../assets/js/core/config.js?v=20260325a"></script>
-  <script src="../assets/js/core/ui.js?v=20260325a"></script>
-  <script src="../assets/js/core/api.js?v=20260325a"></script>
-  <script src="../assets/js/core/auth-guard.js?v=20260325a"></script>
+  <script src="../assets/js/core/config.js?v=20260406a"></script>
+  <script src="../assets/js/core/ui.js?v=20260406a"></script>
+  <script src="../assets/js/core/api.js?v=20260406a"></script>
+  <script src="../assets/js/core/auth-guard.js?v=20260406a"></script>
   <script src="https://accounts.google.com/gsi/client" async defer></script>
-  <script src="../assets/js/pages/login.js?v=20260325a"></script>
+  <script src="../assets/js/pages/login.js?v=20260406a"></script>
 </body>
 </html>

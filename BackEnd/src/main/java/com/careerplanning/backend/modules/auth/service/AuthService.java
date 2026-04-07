@@ -1,5 +1,6 @@
 package com.careerplanning.backend.modules.auth.service;
 
+import java.util.Locale;
 import java.util.UUID;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -36,15 +37,17 @@ public class AuthService {
     }
 
     public AuthResponse register(RegisterRequest request) {
+        String normalizedEmail = normalizeEmail(request.email());
+        String normalizedFullName = normalizeFullName(request.fullName());
         validatePassword(request.password());
 
-        if (userRepository.existsByEmail(request.email())) {
+        if (userRepository.existsByEmailIgnoreCase(normalizedEmail)) {
             throw new IllegalArgumentException("Email is already in use");
         }
 
         User user = new User();
-        user.setFullName(request.fullName());
-        user.setEmail(request.email());
+        user.setFullName(normalizedFullName);
+        user.setEmail(normalizedEmail);
         user.setPassword(passwordEncoder.encode(request.password()));
         user.setRole(validateRegistrationRole(request.role()));
         user.setCareerTrack(resolveCareerTrack(request.careerTrack()));
@@ -56,7 +59,7 @@ public class AuthService {
     }
 
     public AuthResponse login(LoginRequest request) {
-        User user = userRepository.findByEmail(request.email())
+        User user = userRepository.findByEmailIgnoreCase(normalizeEmail(request.email()))
                 .orElseThrow(() -> new IllegalArgumentException("Invalid credentials"));
 
         if (!passwordEncoder.matches(request.password(), user.getPassword())) {
@@ -70,12 +73,14 @@ public class AuthService {
     public AuthResponse googleSignIn(GoogleSignInRequest request) {
         GoogleTokenVerifierService.VerifiedGoogleUser verifiedUser =
                 googleTokenVerifierService.verifyIdToken(request.idToken());
+        String normalizedEmail = normalizeEmail(verifiedUser.email());
+        String normalizedFullName = normalizeFullName(verifiedUser.fullName());
 
-        User user = userRepository.findByEmail(verifiedUser.email())
+        User user = userRepository.findByEmailIgnoreCase(normalizedEmail)
                 .orElseGet(() -> {
                     User newUser = new User();
-                    newUser.setFullName(verifiedUser.fullName());
-                    newUser.setEmail(verifiedUser.email());
+                    newUser.setFullName(normalizedFullName);
+                    newUser.setEmail(normalizedEmail);
                     newUser.setPassword(passwordEncoder.encode(UUID.randomUUID().toString()));
                     newUser.setRole(UserRole.STUDENT.name());
                     newUser.setCareerTrack(careerTrackCatalogService.defaultCareerTrack());
@@ -106,6 +111,22 @@ public class AuthService {
             return careerTrackCatalogService.defaultCareerTrack();
         }
         return careerTrackCatalogService.validateKnownCareerTrack(careerTrack);
+    }
+
+    private String normalizeEmail(String email) {
+        String normalized = email == null ? "" : email.trim().toLowerCase(Locale.ROOT);
+        if (normalized.isBlank()) {
+            throw new IllegalArgumentException("Email must not be blank");
+        }
+        return normalized;
+    }
+
+    private String normalizeFullName(String fullName) {
+        String normalized = fullName == null ? "" : fullName.trim().replaceAll("\\s+", " ");
+        if (normalized.isBlank()) {
+            throw new IllegalArgumentException("Full name must not be blank");
+        }
+        return normalized;
     }
 
     private void validatePassword(String password) {

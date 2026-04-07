@@ -42,6 +42,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -121,8 +122,8 @@ public class AdminService {
             user.setFullName(normalizeRequiredText(request.fullName(), "fullName"));
         }
         if (request.email() != null) {
-            String normalizedEmail = normalizeRequiredText(request.email(), "email");
-            if (userRepository.existsByEmailAndIdNot(normalizedEmail, userId)) {
+            String normalizedEmail = normalizeEmail(request.email());
+            if (userRepository.existsByEmailIgnoreCaseAndIdNot(normalizedEmail, userId)) {
                 throw new IllegalArgumentException("Email is already in use");
             }
             user.setEmail(normalizedEmail);
@@ -484,6 +485,14 @@ public class AdminService {
         String normalized = value == null ? "" : value.trim();
         if (normalized.isBlank()) {
             throw new IllegalArgumentException(fieldName + " must not be blank");
+        }
+        return normalized;
+    }
+
+    private String normalizeEmail(String email) {
+        String normalized = normalizeRequiredText(email, "email").toLowerCase(Locale.ROOT);
+        if (!normalized.contains("@")) {
+            throw new IllegalArgumentException("email must be a valid email address");
         }
         return normalized;
     }

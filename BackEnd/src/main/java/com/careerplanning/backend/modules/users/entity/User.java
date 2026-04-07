@@ -9,6 +9,7 @@ import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 
 import java.time.Instant;
+import java.util.Locale;
 
 @Entity
 @Table(name = "users")
@@ -69,7 +70,7 @@ public class User {
     }
 
     public void setEmail(String email) {
-        this.email = email;
+        this.email = email == null ? null : email.trim().toLowerCase(Locale.ROOT);
     }
 
     public String getPassword() {
