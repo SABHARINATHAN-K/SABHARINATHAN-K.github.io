@@ -1,12 +1,14 @@
-# Career Planning System - Render Deployment Fix
+# Career Planning System - Flyway Deployment Fix TODO
 
-## Steps to Complete:
+## Current Task: Fix Render.com deployment failure due to Flyway V4 state validation
 
-- [x] Step 1: Create this TODO.md file
-- [x] Step 2: Edit BackEnd/src/main/resources/application.yml to add Flyway out-of-order: true
-- [x] Step 2.5: Add ignore-migration-patterns: '*:4' to skip TiDB V4 syntax issue
-- [ ] Step 3: Commit & push (`git add . && git commit -m "fix(render): skip V4 migration for TiDB compatibility" && git push origin main`)
+### Steps:
+- [x] **Step 1:** Edit `BackEnd/src/main/resources/application.yml` - Remove `flyway.ignore-migration-patterns: '*:4'` line ✓
+- [x] **Step 2:** Verify edit successful (Flyway config clean) ✓
+- [ ] **Step 3:** Test Flyway migration locally: `cd BackEnd && mvn clean flyway:migrate`
+- [ ] **Step 4:** Commit changes: `git add . && git commit -m "Fix Flyway V4 validation for prod deploy" && git push`
+- [ ] **Step 5:** Monitor Render redeploy logs for success (app starts on port 8080)
+- [ ] **Step 6:** Test auth endpoints on deployed app
 
-- [ ] Step 4: Push to trigger Render redeploy (`git push origin main`)
-- [ ] Step 5: Monitor Render logs for successful startup
-- [ ] Step 6: Mark complete (`attempt_completion`)
+**Status:** Starting Step 1...
+
